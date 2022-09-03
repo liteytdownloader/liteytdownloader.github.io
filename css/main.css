@@ -2739,7 +2739,7 @@ html.no-csstransitions .home-content__main {
 @media only screen and (max-width:600px) {
   .s-about {
     padding-top: 14.8rem;
-    padding-bottom: calc((60rem/2) + 9.6rem);
+    padding-bottom: 11rem;
   }
 
   .about-desc {
@@ -2754,7 +2754,7 @@ html.no-csstransitions .home-content__main {
 
 @media only screen and (max-width:500px) {
   .s-about {
-    padding-bottom: calc((52rem/2) + 9.6rem);
+    padding-bottom: 11rem;
   }
 
 }
@@ -2762,7 +2762,7 @@ html.no-csstransitions .home-content__main {
 @media only screen and (max-width:400px) {
   .s-about {
     padding-top: 14rem;
-    padding-bottom: calc((48rem/2) + 9.6rem);
+    padding-bottom: 11rem;
   }
 
 }
