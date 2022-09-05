@@ -4114,3 +4114,20 @@ html.no-csstransitions .home-content__main {
 {
 	background-color: #0099cc;
 }
+
+iframe
+{
+	display: none; 
+	width: 100%; 
+	height: 60vw; 
+	max-height: 600px; 
+	border-radius: 6px;
+}
+
+@media (pointer:coarse) {
+	iframe
+	{
+		height: calc(100.0vh - 145px);
+		max-height: unset; 
+	}
+}
