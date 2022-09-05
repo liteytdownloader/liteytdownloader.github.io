@@ -379,8 +379,21 @@
         </div>
 		
 		<div class="row download-bottom-image aos-init aos-animate" data-aos="fade-up">
-		<iframe style="width: 100%; height: 60vw; max-height: 600px;" src="https://www.youtube.com/embed/vJnogx9Y5yA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> 
-        </div>
+		<iframe style="display: none; width: 100%; height: 60vw; max-height: 600px;" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> 
+         <script>
+		 (function()
+		 {
+			window.addEventListener("load", function() {
+				const iframeElement = document.querySelector("iframe");
+				if (iframeElement != null) {
+					iframeElement.style.display = "block";
+					iframeElement.src = "https://www.youtube.com/embed/vJnogx9Y5yA";
+				}
+				console.log("Document loaded");
+			}, false);
+		 })();
+		 </script>
+	   </div>
     </section> <!-- end s-download -->
 
 
