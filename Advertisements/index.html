@@ -128,7 +128,7 @@
 		height: calc(100.0vh - 30px);
 		margin-top: 15px;
 		background-color: rgba(255, 255, 255, 0.2);
-		min-width: 400px;
+		min-width: 350px;
 		max-width: calc(100.0vw / 2);
 		overflow: auto;
 	}
@@ -609,8 +609,41 @@ function AppendAdData(channel, adname, adtype, reservedAds, showReserved) {
 		acticeCHN = JSON.parse(activeCache);
 	}
 	
+	FixActivationLayout(acticeCHN);
+	
 	parseJSONData(jsonData, acticeCHN);
 })();
+
+function FixActivationLayout(ActiveChannels) {
+	if (_chanInputs == null) {
+		_chanInputs = document.querySelectorAll("input");
+	}
+	
+	if (ActiveChannels[0])
+		_chanInputs[0].checked = true;
+	else
+		_chanInputs[0].checked = false;
+		
+	if (ActiveChannels[1])
+		_chanInputs[2].checked = true;
+	else
+		_chanInputs[2].checked = false;
+		
+	if (ActiveChannels[2])
+		_chanInputs[1].checked = true;
+	else
+		_chanInputs[1].checked = false;
+		
+	if (ActiveChannels[3])
+		_chanInputs[3].checked = true;
+	else
+		_chanInputs[3].checked = false;
+		
+	if (ActiveChannels[4])
+		_chanInputs[4].checked = true;
+	else
+		_chanInputs[4].checked = false;
+}
 
 function ShowFilteredAds(trigger) {
 	if (_chanInputs == null) {
@@ -677,7 +710,7 @@ function CopyMe(type, element) {
 	console.log(element);
 	
 	let time = element.parentNode.querySelector(".time").innerText,
-		date = element.parentNode.parentNode.querySelector(".title").innerText;
+		date = FixDateString(element.parentNode.parentNode.querySelector(".title").innerText);
 	
 	let findChannel = element.className, adPosition = "آخرین مطلب ارسالی (جایگاه اول)";
 	if (type == 0) {
@@ -697,7 +730,7 @@ function CopyMe(type, element) {
 		findChannel = "آدرین موزیک";
 	}
 	
-	let takeText = "📅 روز " + date.replace(" ", " - ") + "\r\n⏰ ساعت: " + time + "\r\n🆔 کانال: " + findChannel + "\r\n🔺 جایگاه: " + adPosition + "\r\n🔻 قیمت: PRICE\r\n\r\nℹ️ بنر شما از ساعت " + time;
+	let takeText = "📅 روز " + date + "\r\n⏰ ساعت: " + time + "\r\n🆔 کانال: " + findChannel + "\r\n🔺 جایگاه: " + adPosition + "\r\n🔻 قیمت: PRICE\r\n\r\nℹ️ بنر شما از ساعت " + time;
 	takeText += " تا ساعت " + FindNextTime(time, findChannel) + " " + adPosition + " کانال " + findChannel + " خواهد بود. بعد از آن تبلیغ شما پس آزاد می‌شود، بنر ۲۴ ساعت بعد از قرار کرفتن در کانال حدف می‌شود";
 	console.log(time + " | " + date);
 	console.log(takeText);
@@ -727,6 +760,23 @@ function FindNextTime(curtime, channlName) {
 	}
 }
 
+function FixDateString(date) {
+	let where = date.indexOf('\r'), where2 = date.indexOf('\n');
+	
+	if (where != -1 && where2 != -1) {
+		return date.replace("\r\n", " - ");
+	}
+	else if (where != -1) {
+		return date.replace("\r", " - ");
+	}
+	else if (where2 != -1) {
+		return date.replace("\n", " - ");
+	}
+	else {
+		return date;
+	}
+}
+
 function CopyTheText(text) {
 	let copyText = document.createElement("textarea");
 	copyText.style.position = "fixed";
@@ -749,6 +799,10 @@ function CopyTheText(text) {
 	document.execCommand('copy');
 	
 	copyText.remove();
+}
+
+function FocusOnToday() {
+	let todaysDate = new Date().toLocaleDateString('fa-IR');  //1402/1/1
 }
 
 </script>
