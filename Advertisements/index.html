@@ -1,0 +1,638 @@
+<html>
+<head>
+<link rel="stylesheet" href="fontawesome/css/fontawesome.min.css">
+<link rel="stylesheet" href="fontawesome/css/solid.min.css">
+<link rel="stylesheet" href="fontawesome/css/duotone.min.css">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+<style>
+
+	<!--
+	
+	
+	-->
+	
+	.inputcontainer {
+	  display: inline-block;
+	  position: relative;
+	  padding-left: 35px;
+	  /*margin-bottom: 12px;*/
+	  cursor: pointer;
+	  font-size: 22px;
+	  -webkit-user-select: none;
+	  -moz-user-select: none;
+	  -ms-user-select: none;
+	  user-select: none;
+	}
+
+	/* Hide the browser's default checkbox */
+	.inputcontainer input {
+	  position: absolute;
+	  opacity: 0;
+	  cursor: pointer;
+	  height: 0;
+	  width: 0;
+	}
+
+	/* Create a custom checkbox */
+	.checkmark {
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  height: 20px;
+	  width: 20px;
+	  background-color: #eee;
+	  transition: background-color 0.2s linear;
+	}
+
+	/* On mouse-over, add a grey background color */
+	.inputcontainer:hover input ~ .checkmark {
+	  background-color: #ccc;
+	}
+
+	/* When the checkbox is checked, add a blue background */
+	.inputcontainer input:checked ~ .checkmark {
+	  background-color: #2196F3;
+	}
+
+	/* Create the checkmark/indicator (hidden when not checked) */
+	.checkmark:after {
+	  content: "";
+	  position: absolute;
+	  display: none;
+	}
+
+	/* Show the checkmark when checked */
+	.inputcontainer input:checked ~ .checkmark:after {
+	  display: block;
+	}
+
+	/* Style the checkmark/indicator */
+	.inputcontainer .checkmark:after {
+	  left: 6px;
+	  top: 2px;
+	  width: 5px;
+	  height: 10px;
+	  border: solid white;
+	  border-width: 0 3px 3px 0;
+	  -webkit-transform: rotate(45deg);
+	  -ms-transform: rotate(45deg);
+	  transform: rotate(45deg);
+	}
+	
+	<!--
+	
+	-->
+
+	@font-face {
+	  font-family: AdobeArabic;
+	  src: url(sitefont.otf);
+	}
+
+	body {
+		background-image: url('network_background_1.jpg');
+		background-position: center;
+		background-size: cover;
+		padding: 0px;
+		margin: 0px;
+		font-family: AdobeArabic;
+		font-size: 1.5rem;
+	}
+	
+	.container {
+		margin: auto;
+		width: calc(100.0vw - 30px);
+		border: 2px solid white;
+		border-radius: 4px;
+		height: calc(100.0vh - 30px);
+		margin-top: 15px;
+		background-color: rgba(255, 255, 255, 0.2);
+		min-width: 400px;
+		max-width: calc(100.0vw / 2);
+		overflow: auto;
+	}
+	
+	.day {
+		margin-top: 15px;
+		padding: 0px 15px;
+		text-align: right;
+		direction: rtl;
+		cursor: pointer;
+	}
+	
+	.title {
+		position: relative;
+		border-top: 4px solid red;
+		border-radius: 2px 2px 0px 0px;
+		background-color: white;
+		padding: 5px;
+		padding-right: 30px;
+		transition: border-top 0.2s linear;
+	}
+	
+	.date {
+		position: absolute;
+		left: 5px;
+	}
+	
+	.Shad:before {
+		content: '🟡';
+	}
+	
+	.Aramish:before {
+		content: '🟣';
+	}
+	
+	.Quran:before {
+		content: '🟢';
+	}
+	
+	.Adrin:before {
+		content: '🔴';
+	}
+	
+	.Shad, .Aramish, .Quran, .Adrin {
+		transition: opacity 0.2s linear;
+	}
+	
+	.TakenReserve:before {
+		content: '⚪';
+	}
+	
+	.title i {
+		color: #ff5c5c;
+		position: absolute;
+		right: 5px;
+	}
+	
+	.ReservedAds {
+		position: relative;
+		padding: 5px;
+		padding-top: 10px;
+		background-color: rgb(254, 238, 255, 1);
+		transition: background-color 0.2s linear, border-radius 0.2s linear, border-right 0.2s linear;
+		border-right: 4px solid white;
+		
+	}
+	
+	.ReservedAds:not(:nth-child(2)) {
+		margin-top: 7px;
+	}
+	
+	
+	.ReservedAds:hover {
+		background-color: rgb(254, 238, 255, 0.95);
+		border-radius: 4px;
+		border-right: 4px solid lime;
+	}
+	
+	.time i {
+		position: relative;
+		color: #600083;
+		z-index: 2;
+		margin-top: 11px;
+	}
+	
+	.time {
+		padding-right: 37px;
+		padding-top: 2px;
+		text-align: center;
+	}
+	
+	.time:before {
+		position: absolute;
+		background-color: white;
+		width: 14px;
+		height: 14px;
+		content: '';
+		z-index: 1;
+		top: 18px;
+		margin-right: 6px;
+	}
+	
+	.fa-lg {
+		font-size: 1.15em;
+	}
+	
+	.fa-arrow-left {	
+		font-size: 0.8em;
+	}
+	
+	.fa-arrow-left.empty {
+		color: #fdff00;
+	}
+	
+	.day:last-child {
+		margin-bottom: 40px;
+	}
+	
+	.helper {
+		text-align: right;
+		direction: rtl;
+	
+	}
+	
+	.helper a {
+		color: white;
+		text-decoration: none; 
+	}
+	
+	.activator {
+		position: fixed;
+		z-index: 10;
+		border-radius: 4px;
+		border: 2px solid #00c8ff;
+		bottom: 5px;
+		right: 5px;
+		padding: 0px 5px 5px 5px;
+		overflow: hidden;
+		max-height: 35px;
+		background-color: rgba(0, 0, 0, 0.2);
+		direction: rtl;
+		color: white;	
+		transition: max-height 0.3s linear;
+	}
+	
+	.activator:hover {
+		max-height: 180px;
+	}
+	
+	.fa-circle-check {
+		top: 5px; --fa-primary-color: #ffffff;
+		--fa-secondary-color: #5fde28;
+		--fa-secondary-opacity: 1;
+	}
+</style>
+	<div class="activator">
+		<div class="Shad">
+			<label class="inputcontainer">
+				شادکنک
+			  <input type="checkbox" checked="checked" onchange="ShowFilteredAds(this)">
+			  <span class="checkmark"></span>		  
+			</label>
+		</div>
+		
+		<div class="Quran">
+			<label class="inputcontainer">
+				انس با قرآن
+			  <input type="checkbox" onchange="ShowFilteredAds(this)">
+			  <span class="checkmark"></span>		  
+			</label>
+		</div>
+		
+		
+		<div class="Aramish">
+			<label class="inputcontainer">
+				صدای آرامش
+			  <input type="checkbox" onchange="ShowFilteredAds(this)">
+			  <span class="checkmark"></span>		  
+			</label>
+		</div>
+		
+		<div class="Adrin">	
+			<label class="inputcontainer">
+			  <input type="checkbox" onchange="ShowFilteredAds(this)">
+			  <span class="checkmark"></span>
+			  آدرین موزیک
+			</label>
+		</div>
+		
+		<div class="TakenReserve">	
+			<label class="inputcontainer">
+			  <input type="checkbox" onchange="ShowFilteredAds(this)">
+			  <span class="checkmark"></span>
+			  رزرو شده
+			</label>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="day">
+			<div class="title"><i class="fa-solid fa-calendar-days"></i> چهارشنبه<span class="date">۱۴۰۲/۱۲/۱۲</span></div>
+			<div class="ReservedAds">
+			<div class="time"><i class="fa-solid fa-alarm-clock fa-lg"></i> ۱۰:۳۰ صبح</div>
+			<div class="Aramish">یک مطلب مانده به آخر <div style="text-align: center">رزرو نشده</div></div>
+			<div class="Aramish">آخرین مطلب ارسالی <div style="text-align: center"><i class="fa-solid fa-flag-swallowtail"></i> رزرو شده، موضوع: طب سنتی</div></div> <br />
+
+			<div class="Quran">یک مطلب مانده به آخر <i class="fa-solid fa-arrow-left empty"></i> خالی</div>
+			<div class="Quran">آخرین مطلب ارسالی <i class="fa-solid fa-arrow-left"></i> طب سنتی (رزرو شده)</div>
+			<div class="Adrin">یک مطلب مانده به آخر <i class="fa-solid fa-arrow-left empty"></i> خالی</div>
+			<div class="Adrin">آخرین مطلب ارسالی <i class="fa-solid fa-arrow-left"></i> طب سنتی (رزرو شده)</div>
+			</div>
+			<div class="ReservedAds">	
+			<div class="time"><i class="fa-solid fa-alarm-clock fa-lg"></i> ۱۲ ظهر</div>
+			<div class="Shad">یک مطلب مانده به آخر <i class="fa-solid fa-arrow-left empty"></i> خالی</div>
+			<div class="Shad">آخرین مطلب ارسالی <i class="fa-solid fa-arrow-left"></i> طب سنتی</div>
+			</div>
+			<div class="ReservedAds">	
+			<div class="time"><i class="fa-solid fa-alarm-clock fa-lg"></i> ۱۷ عصر</div>
+			<div class="Shad">یک مطلب مانده به آخر <i class="fa-solid fa-arrow-left empty"></i> خالی</div>
+			<div class="Shad">آخرین مطلب ارسالی <i class="fa-solid fa-arrow-left"></i> طب سنتی</div>
+			<div class="Quran">یک مطلب مانده به آخر <i class="fa-solid fa-arrow-left empty"></i> خالی</div>
+			<div class="Quran">آخرین مطلب ارسالی <i class="fa-solid fa-arrow-left"></i> طب سنتی (رزرو شده)</div>
+			<div class="Adrin">یک مطلب مانده به آخر <i class="fa-solid fa-arrow-left empty"></i> خالی</div>
+			<div class="Adrin">آخرین مطلب ارسالی <i class="fa-solid fa-arrow-left"></i> طب سنتی (رزرو شده)</div>
+			</div>
+			<div class="ReservedAds">	
+			<div class="time"><i class="fa-solid fa-alarm-clock fa-lg"></i> 18 عصر</div>
+			<div class="Shad">یک مطلب مانده به آخر <i class="fa-solid fa-arrow-left empty"></i> خالی</div>
+			<div class="Shad">آخرین مطلب ارسالی <i class="fa-solid fa-arrow-left"></i> طب سنتی</div>
+			</div>
+			<div class="ReservedAds">	
+			<div class="time"><i class="fa-solid fa-alarm-clock fa-lg"></i> 22 شب</div>
+			<div class="Shad">یک مطلب مانده به آخر <i class="fa-solid fa-arrow-left empty"></i> خالی</div>
+			<div class="Shad">آخرین مطلب ارسالی <i class="fa-solid fa-arrow-left"></i> طب سنتی</div>
+			<div class="Aramish">یک مطلب مانده به آخر <i class="fa-solid fa-arrow-left empty"></i> خالی</div>
+			<div class="Aramish">آخرین مطلب ارسالی <i class="fa-solid fa-arrow-left"></i> طب سنتی (رزرو شده)</div>
+
+			<div class="Quran">یک مطلب مانده به آخر <i class="fa-solid fa-arrow-left empty"></i> خالی</div>
+			<div class="Quran">آخرین مطلب ارسالی <i class="fa-solid fa-arrow-left"></i> طب سنتی (رزرو شده)</div>
+			<div class="Adrin">یک مطلب مانده به آخر <i class="fa-solid fa-arrow-left empty"></i> خالی</div>
+			<div class="Adrin">آخرین مطلب ارسالی <i class="fa-solid fa-arrow-left"></i> طب سنتی (رزرو شده)</div>
+			</div>
+		</div>
+		
+		<div class="day">
+			<div class="title"><i class="fa-solid fa-calendar-days"></i> چهارشنبه<span class="date">۱۴۰۲/۱۲/۱۲</span></div>
+			<div class="ReservedAds">
+			<div class="time"><i class="fa-solid fa-alarm-clock fa-lg"></i> ۱۰:۳۰ صبح</div>
+			<div class="Aramish">یک مطلب مانده به آخر <i class="fa-solid fa-arrow-left empty"></i> خالی</div>
+			<div class="Aramish">آخرین مطلب ارسالی <i class="fa-solid fa-arrow-left"></i> طب سنتی (رزرو شده)</div>
+			</div>
+			<div class="ReservedAds">	
+			<div class="time"><i class="fa-solid fa-alarm-clock fa-lg"></i> ۱۲ ظهر</div>
+			<div class="Shad">یک مطلب مانده به آخر <i class="fa-solid fa-arrow-left empty"></i> خالی</div>
+			<div class="Shad">آخرین مطلب ارسالی <i class="fa-solid fa-arrow-left"></i> طب سنتی</div>
+			</div>
+			<div class="ReservedAds">	
+			<div class="time"><i class="fa-solid fa-alarm-clock fa-lg"></i> ۱۷ عصر</div>
+			<div class="Shad">یک مطلب مانده به آخر <i class="fa-solid fa-arrow-left empty"></i> خالی</div>
+			<div class="Shad">آخرین مطلب ارسالی <i class="fa-solid fa-arrow-left"></i> طب سنتی</div>
+			</div>
+			<div class="ReservedAds">	
+			<div class="time"><i class="fa-solid fa-alarm-clock fa-lg"></i> 18 عصر</div>
+			<div class="Shad">یک مطلب مانده به آخر <i class="fa-solid fa-arrow-left empty"></i> خالی</div>
+			<div class="Shad">آخرین مطلب ارسالی <i class="fa-solid fa-arrow-left"></i> طب سنتی</div>
+			</div>
+			<div class="ReservedAds">	
+			<div class="time"><i class="fa-solid fa-alarm-clock fa-lg"></i> 22 شب</div>
+			<div class="Shad">یک مطلب مانده به آخر <i class="fa-solid fa-arrow-left empty"></i> خالی</div>
+			<div class="Shad">آخرین مطلب ارسالی <i class="fa-solid fa-arrow-left"></i> طب سنتی</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script>
+
+var _dataJSON = null, _activeChannels = null, _chanInputs = null;
+
+function parseJSONData(jsondata, activechannel) {
+	localStorage.setItem("activeCHN", JSON.stringify(activechannel));
+
+	_activeChannels = activechannel;
+	if (jsondata != null) {
+		_dataJSON = jsondata;
+	}
+	else {
+		jsondata = _dataJSON;
+	}
+	
+	let theContainer = document.querySelector(".container");
+	theContainer.innerHTML = "";
+	
+	for (let i = 0, j = jsondata[0].length; i < j; i++) {
+		let currentDay = i;
+		
+		let data1 = jsondata[1][currentDay], // aramish
+		data2 = jsondata[2][currentDay], // qoran
+		data3 = jsondata[3][currentDay], // adrin
+		data4 = jsondata[0][currentDay]; // shadkonak
+		
+		let dayElement = document.createElement("div");
+		dayElement.className = "day";
+		dayElement.innerHTML = '<div class="title"><i class="fa-solid fa-calendar-days"></i> ' + data1.Day + '<span class="date">' + data1.Date + '</span></div>';
+		
+		
+		for (let i = 0; i < 3; i++) {
+			let reservedAds = null, ad1, ad2;
+			if (activechannel[1] || activechannel[2] || activechannel[3]) {
+				reservedAds = document.createElement("div");
+				reservedAds.className = "ReservedAds";
+				
+				let theTime = " ۱۰:۳۰ صبح";
+				if (i == 1) {
+					theTime = " ۱۷ عصر";
+				}
+				else if (i == 2) {
+					theTime = " ۲۲ شب";
+				}
+				reservedAds.innerHTML = '<div class="time"><i class="fa-solid fa-alarm-clock fa-lg"></i>' + theTime + '</div>';
+				
+				// aramish
+				if (activechannel[1]) {
+					ad1 = jsondata[1][currentDay].Ads[i][0];
+					ad2 = jsondata[1][currentDay].Ads[i][1];
+					AppendAdData("Aramish", ad1, 0, reservedAds, activechannel);
+					AppendAdData("Aramish", ad2, 1, reservedAds, activechannel);
+				}
+				
+				// quran
+				if (activechannel[2]) {
+					ad1 = jsondata[2][currentDay].Ads[i][0];
+					ad2 = jsondata[2][currentDay].Ads[i][1];
+					AppendAdData("Quran", ad1, 0, reservedAds, activechannel);
+					AppendAdData("Quran", ad2, 1, reservedAds, activechannel);
+				}
+				
+				// adrin
+				if (activechannel[3]) {
+					ad1 = jsondata[3][currentDay].Ads[i][0];
+					ad2 = jsondata[3][currentDay].Ads[i][1];
+					AppendAdData("Adrin", ad1, 0, reservedAds, activechannel);
+					AppendAdData("Adrin", ad2, 1, reservedAds, activechannel);
+				}
+			}
+			
+			if (i == 2 && activechannel[0]) {
+				if (reservedAds == null) {
+					reservedAds = document.createElement("div");
+					reservedAds.className = "ReservedAds";				
+					reservedAds.innerHTML = '<div class="time"><i class="fa-solid fa-alarm-clock fa-lg"></i> ۲۲ شب</div>';
+				}
+				
+				ad1 = jsondata[0][currentDay].Ads[i][0];
+				ad2 = jsondata[0][currentDay].Ads[i][1];
+				AppendAdData("Shad", ad1, 0, reservedAds, activechannel);
+				AppendAdData("Shad", ad2, 1, reservedAds, activechannel);
+			}
+			
+			if (reservedAds != null && reservedAds.innerText.includes("شده"))
+				dayElement.appendChild(reservedAds);
+			
+			// 12 am
+			if (i != 2 && activechannel[0]) {
+				reservedAds = document.createElement("div");
+				reservedAds.className = "ReservedAds";
+				
+				let theTime = " ۱۲ ظهر";
+				if (i == 1) {
+					theTime = " ۱۸ عصر";
+				}
+				reservedAds.innerHTML = '<div class="time"><i class="fa-solid fa-alarm-clock fa-lg"></i>' + theTime + '</div>';
+				
+				// shadkoonak
+				ad1 = jsondata[0][currentDay].Ads[i][0];
+				ad2 = jsondata[0][currentDay].Ads[i][1];
+				AppendAdData("Shad", ad1, 0, reservedAds, activechannel);
+				AppendAdData("Shad", ad2, 1, reservedAds, activechannel);
+			
+			}
+			
+			if (reservedAds != null && reservedAds.innerText.includes("شده"))
+				dayElement.appendChild(reservedAds);
+		}
+		theContainer.appendChild(dayElement);
+		
+		/*
+		if (ad1.length > 0)
+			reservedAds.innerHTML += '<div class="Aramish">یک مطلب مانده به آخر <i class="fa-solid fa-arrow-left"></i>' + ad1 + ' (رزرو شده)</div>';
+		else
+			reservedAds.innerHTML += '<div class="Aramish">یک مطلب مانده به آخر <i class="fa-solid fa-arrow-left empty"></i> خالی</div>';
+			
+		if (ad2.length > 0)
+			reservedAds.innerHTML += '<div class="Aramish">یک مطلب مانده به آخر <i class="fa-solid fa-arrow-left"></i>' + ad1 + ' (رزرو شده)</div>';
+		else
+			reservedAds.innerHTML += '<div class="Aramish">یک مطلب مانده به آخر <i class="fa-solid fa-arrow-left empty"></i> خالی</div>';
+			*/
+		/*
+		<div class="title"><i class="fa-solid fa-calendar-days"></i> چهارشنبه<span class="date">۱۴۰۲/۱۲/۱۲</span></div>
+			<div class="ReservedAds">
+			<div class="time"><i class="fa-solid fa-alarm-clock fa-lg"></i> ۱۰:۳۰ صبح</div>
+			<div class="Aramish">یک مطلب مانده به آخر <i class="fa-solid fa-arrow-left empty"></i> خالی</div>
+			<div class="Aramish">آخرین مطلب ارسالی <i class="fa-solid fa-arrow-left"></i> طب سنتی (رزرو شده)</div>
+			</div>
+		
+		*/
+	}
+}
+
+function AppendAdData(channel, adname, adtype, reservedAds, showReserved) {
+	if (adname.length > 0) {
+		if (!showReserved[4])
+			return;
+		if (adtype == 0) {
+			reservedAds.innerHTML += '<div class="' + channel + ' AdItem">یک مطلب مانده به آخر<div style="text-align: center"><i class="fa-solid fa-flag-swallowtail"></i> رزرو شده، موضوع: ' + adname + '</div></div>';
+		}
+		else {
+			reservedAds.innerHTML += '<div class="' + channel + ' AdItem">آخرین مطلب ارسالی<div style="text-align: center"><i class="fa-solid fa-flag-swallowtail"></i> رزرو شده، موضوع: ' + adname + '</div></div>';
+		}
+	}
+	else {
+		if (adtype == 0) {
+			
+			reservedAds.innerHTML += '<div class="' + channel + ' AdItem">یک مطلب مانده به آخر<div style="text-align: center"><i class="fa-duotone fa-circle-check"></i> رزرو نشده</div></div>';
+		}
+		else {
+			reservedAds.innerHTML += '<div class="' + channel + ' AdItem">آخرین مطلب ارسالی<div style="text-align: center"><i class="fa-duotone fa-circle-check"></i> رزرو نشده</div></div>';
+		}
+	}
+}
+
+
+(function() {
+	let jsonData = [
+		[ // Shad
+			{Date: "۱۴۰۲/۱۲/۱۲", Day: "چهارشنبه", Ads: [["", "طب سنتی"], ["وسایل آرایش", ""], ["گلدوزی", "مذهبی"]]},
+			{Date: "۱۴۰۲/۱۲/۱3", Day: "پنج شنبه", Ads: [["", "طب سنتی"], ["وسایل آرایش", ""], ["گلدوزی", "مذهبی"]]}
+		],
+		[
+			{Date: "۱۴۰۲/۱۲/۱۲", Day: "چهارشنبه", Ads: [["", "طب سنتی"], ["وسایل آرایش", ""], ["گلدوزی", "مذهبی"]]},
+			{Date: "۱۴۰۲/۱۲/۱3", Day: "پنج شنبه", Ads: [["", "طب سنتی"], ["وسایل آرایش", ""], ["گلدوزی", "مذهبی"]]}
+		], // Aramish
+		[
+			{Date: "۱۴۰۲/۱۲/۱۲", Day: "چهارشنبه", Ads: [["", "طب سنتی"], ["وسایل آرایش", ""], ["گلدوزی", "مذهبی"]]},
+			{Date: "۱۴۰۲/۱۲/۱3", Day: "پنج شنبه", Ads: [["", "طب سنتی"], ["وسایل آرایش", ""], ["گلدوزی", "مذهبی"]]}
+		], // Qoran
+		[
+			{Date: "۱۴۰۲/۱۲/۱۲", Day: "چهارشنبه", Ads: [["آهنگ", "طب سنتی"], ["وسایل آرایش", ""], ["گلدوزی", "مذهبی"]]},
+			{Date: "۱۴۰۲/۱۲/۱3", Day: "پنج شنبه", Ads: [["آهنگ", "طب سنتی"], ["وسایل آرایش", ""], ["گلدوزی", "مذهبی"]]}
+		] // Adrin
+	];
+	
+	let acticeCHN = [true, true, true, true];
+	
+	let activeCache = localStorage.getItem("activeCHN");
+	if (activeCache != null) {
+		acticeCHN = JSON.parse(activeCache);
+	}
+	
+	parseJSONData(jsonData, acticeCHN);
+})();
+
+function ShowFilteredAds(trigger) {
+	if (_chanInputs == null) {
+		_chanInputs = document.querySelectorAll("input");
+	}
+	
+	let activeChannelsList = [_chanInputs[0].checked, _chanInputs[2].checked, _chanInputs[1].checked, _chanInputs[3].checked, _chanInputs[4].checked];
+	
+	if (!activeChannelsList[0] &&
+		!activeChannelsList[1] &&
+		!activeChannelsList[2] &&
+		!activeChannelsList[3]) {
+		trigger.checked = true;
+		
+		activeChannelsList = [_chanInputs[0].checked, _chanInputs[2].checked, _chanInputs[1].checked, _chanInputs[3].checked, _chanInputs[4].checked];
+	}
+	
+	console.log(activeChannelsList);
+	
+	if (PerformeFadeEffect(activeChannelsList)) {
+		setTimeout(function() {
+			parseJSONData(null, activeChannelsList);
+		}, 205);
+	}
+	else {
+		parseJSONData(null, activeChannelsList);
+	}
+}
+
+function PerformeFadeEffect(ActiveChannelsList) {
+	let fadingAny = false;
+	if (!ActiveChannelsList[0]) {
+		document.querySelectorAll(".Shad.AdItem").forEach(function(item) {
+			item.style.opacity = "0";
+			fadingAny = true;
+		});
+	}
+	
+	if (!ActiveChannelsList[1]) {
+		document.querySelectorAll(".Aramish.AdItem").forEach(function(item) {
+			item.style.opacity = "0";
+			fadingAny = true;
+		});
+	}
+	
+	if (!ActiveChannelsList[2]) {
+		document.querySelectorAll(".Quran.AdItem").forEach(function(item) {
+			item.style.opacity = "0";
+			fadingAny = true;
+		});
+	}
+	
+	if (!ActiveChannelsList[3]) {
+		document.querySelectorAll(".Adrin.AdItem").forEach(function(item) {
+			item.style.opacity = "0";
+			fadingAny = true;
+		});
+	}
+
+	return fadingAny;
+}
+
+</script>
+
+</html>
