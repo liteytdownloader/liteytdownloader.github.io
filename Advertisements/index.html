@@ -272,14 +272,22 @@
 		padding: 0px 5px 5px 5px;
 		overflow: hidden;
 		max-height: 35px;
+		max-width: 130px;
 		background-color: rgba(0, 0, 0, 0.2);
 		direction: rtl;
-		color: white;	
-		transition: max-height 0.4s ease;
+		color: white;
+		transition: max-height 0.4s ease, max-width 0.4s ease, background-color 0.4s ease;
+	}
+	
+	.activator > div {
+		white-space: nowrap;
+		width: 100%;
 	}
 	
 	.activator:hover, .activator:active, .activator:focus, .activator:visited {
 		max-height: 180px;
+		max-width: 190px;
+		background-color: rgba(0, 0, 0, 0.8);
 	}
 	
 	.fa-circle-check {
@@ -556,19 +564,19 @@ function AppendAdData(channel, adname, adtype, reservedAds, showReserved) {
 		if (!showReserved[4])
 			return;
 		if (adtype == 0) {
-			reservedAds.innerHTML += '<div class="' + channel + ' AdItem">یک مطلب مانده به آخر<div style="text-align: center"><i class="fa-solid fa-flag-swallowtail"></i> رزرو شده، موضوع: ' + adname + '</div></div>';
+			reservedAds.innerHTML += '<div onclick="CopyMe(0, this)" class="' + channel + ' AdItem">یک مطلب مانده به آخر<div style="text-align: center"><i class="fa-solid fa-flag-swallowtail"></i> رزرو شده، موضوع: ' + adname + '</div></div>';
 		}
 		else {
-			reservedAds.innerHTML += '<div class="' + channel + ' AdItem">آخرین مطلب ارسالی<div style="text-align: center"><i class="fa-solid fa-flag-swallowtail"></i> رزرو شده، موضوع: ' + adname + '</div></div>';
+			reservedAds.innerHTML += '<div onclick="CopyMe(1, this)" class="' + channel + ' AdItem">آخرین مطلب ارسالی<div style="text-align: center"><i class="fa-solid fa-flag-swallowtail"></i> رزرو شده، موضوع: ' + adname + '</div></div>';
 		}
 	}
 	else {
 		if (adtype == 0) {
 			
-			reservedAds.innerHTML += '<div class="' + channel + ' AdItem">یک مطلب مانده به آخر<div style="text-align: center"><i class="fa-duotone fa-circle-check"></i> رزرو نشده</div></div>';
+			reservedAds.innerHTML += '<div onclick="CopyMe(0, this)" class="' + channel + ' AdItem">یک مطلب مانده به آخر<div style="text-align: center"><i class="fa-duotone fa-circle-check"></i> رزرو نشده</div></div>';
 		}
 		else {
-			reservedAds.innerHTML += '<div class="' + channel + ' AdItem">آخرین مطلب ارسالی<div style="text-align: center"><i class="fa-duotone fa-circle-check"></i> رزرو نشده</div></div>';
+			reservedAds.innerHTML += '<div onclick="CopyMe(1, this)" class="' + channel + ' AdItem">آخرین مطلب ارسالی<div style="text-align: center"><i class="fa-duotone fa-circle-check"></i> رزرو نشده</div></div>';
 		}
 	}
 }
@@ -663,6 +671,84 @@ function PerformeFadeEffect(ActiveChannelsList) {
 	}
 
 	return fadingAny;
+}
+
+function CopyMe(type, element) {
+	console.log(element);
+	
+	let time = element.parentNode.querySelector(".time").innerText,
+		date = element.parentNode.parentNode.querySelector(".title").innerText;
+	
+	let findChannel = element.className, adPosition = "آخرین مطلب ارسالی (جایگاه اول)";
+	if (type == 0) {
+		adPosition = "یک مطلب مانده به آخر (جایگاه دوم)";
+	}
+	
+	if (findChannel.includes("Shad")) {
+		findChannel = "شادکنک";
+	}
+	else if (findChannel.includes("Aramish")) {
+		findChannel = "صدای آرامش";
+	}
+	if (findChannel.includes("Quran")) {
+		findChannel = "انس با قرآن";
+	}
+	if (findChannel.includes("Adrin")) {
+		findChannel = "آدرین موزیک";
+	}
+	
+	let takeText = "📅 روز " + date.replace(" ", " - ") + "\r\n⏰ ساعت: " + time + "\r\n🆔 کانال: " + findChannel + "\r\n🔺 جایگاه: " + adPosition + "\r\n🔻 قیمت: PRICE\r\n\r\nℹ️ بنر شما از ساعت " + time;
+	takeText += " تا ساعت " + FindNextTime(time, findChannel) + " " + adPosition + " کانال " + findChannel + " خواهد بود. بعد از آن تبلیغ شما پس آزاد می‌شود، بنر ۲۴ ساعت بعد از قرار کرفتن در کانال حدف می‌شود";
+	console.log(time + " | " + date);
+	console.log(takeText);
+	
+	CopyTheText(takeText);
+}
+
+
+function FindNextTime(curtime, channlName) {
+	if (curtime.includes("۱۰:۳۰")) {
+		return "۱۷ عصر";
+	}
+	else if (curtime.includes("۱۲")) {
+		return "۱۸ عصر";
+	}
+	else if (curtime.includes("۱۷") || curtime.includes("۱۸")) {
+		return "۲۲ شب";
+	}
+	else if (curtime.includes("۲۲") && channlName.includes("شادکنک")) {
+		return "۱۲ ظهر";
+	}
+	else if (curtime.includes("۲۲")) {
+		return "۱۰:۳۰ صبح";
+	}
+	else {
+		return "نمیدانم";
+	}
+}
+
+function CopyTheText(text) {
+	let copyText = document.createElement("textarea");
+	copyText.style.position = "fixed";
+	copyText.style.width = "0px";
+	copyText.style.height = "0px";
+	
+	document.body.appendChild(copyText);
+	
+	copyText.value = text;
+	
+	copyText.select();
+	copyText.setSelectionRange(0, 99999);
+	try
+	{
+		navigator.clipboard.writeText(copyText.value);
+	}
+	catch(msg) {
+	
+	}	
+	document.execCommand('copy');
+	
+	copyText.remove();
 }
 
 </script>
