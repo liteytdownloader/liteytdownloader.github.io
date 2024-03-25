@@ -40,7 +40,6 @@ function parseJSONData(jsondata, activechannel, isoffline) {
 		
 		let dayElement = document.createElement("div");
 		dayElement.className = "day";
-		console.log(data1);
 		dayElement.innerHTML = '<div class="title"><i class="fa-solid fa-calendar-days"></i> ' + data1.Day + '<span class="date">' + data1.Date + '</span></div>';
 		
 		
@@ -318,9 +317,7 @@ function CopyMe(type, element) {
 	}
 	
 	let takeText = "📅 روز " + date + "\r\n⏰ ساعت:" + time + "\r\n🆔 کانال: " + findChannel + "\r\n🔺 جایگاه: " + adPosition + "\r\n🔻 قیمت: PRICE\r\n\r\nℹ️ بنر شما از ساعت" + time;
-	takeText += " تا ساعت " + FindNextTime(time, findChannel) + " " + adPosition + " کانال " + findChannel + " خواهد بود. بعد از آن تبلیغ شما پس آزاد می‌شود، بنر ۲۴ ساعت بعد از قرار کرفتن در کانال حدف می‌شود.";
-	console.log(time + " | " + date);
-	console.log(takeText);
+	takeText += " تا ساعت " + FindNextTime(time, findChannel) + " " + adPosition + " کانال " + findChannel + " خواهد بود. بعد از آن تبلیغ شما پست آزاد می‌شود، بنر ۲۴ ساعت بعد از قرار کرفتن در کانال حدف می‌شود.";
 	
 	CopyTheText(takeText);
 	
@@ -416,7 +413,20 @@ function FocusOnToday(isoffline) {
 	for (let i = 0, j = availableDates.length; i < j; i++) {
 		if (availableDates[i].innerText == todaysDate) {	
 			availableDates[i].parentNode.className = "title today";
-			availableDates[i].parentNode.parentNode.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+			
+			
+			//availableDates[i].parentNode.parentNode.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+			
+			let scrollTop = availableDates[i].parentNode.parentNode.offsetTop - 40;
+			if (scrollTop < 0)
+				scrollTop = 0;
+			
+			document.querySelector(".container").scroll({
+			  top: scrollTop,
+			  left: 0,
+			  behavior: "smooth",
+			});
+			
 			break;
 		}
 	}
@@ -471,7 +481,6 @@ var _todaysDateINT = null;
 function IsDateOld(theDate) {
 	if (_todaysDateINT == null) {
 		_todaysDateINT = CalculateDate(new Date().toLocaleDateString('fa-IR'));
-		console.log(_todaysDateINT);
 	}
 
 	if (_todaysDateINT > CalculateDate(theDate)) {
@@ -513,8 +522,6 @@ function OpenSupport() {
 		if (_chanInputs[i].checked)
 			activeChannelsCount++;
 	}
-	
-	console.log(activeChannelsCount);
 	
 	if (activeChannelsCount > 0) {
 		if (activeChannelsCount == 1) {
