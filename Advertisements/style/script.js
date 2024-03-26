@@ -303,20 +303,22 @@ function CopyMe(type, element) {
 		adPosition = "یک مطلب مانده به آخر (جایگاه دوم)";
 	}
 	
+	let adPrice = CalculateAdPrice(findChannel, type, time, date);
+	
 	if (findChannel.includes("Shad")) {
-		findChannel = "شادکنک";
+		findChannel = "شادکنک - @ShadKoonak";
 	}
 	else if (findChannel.includes("Aramish")) {
-		findChannel = "صدای آرامش";
+		findChannel = "صدای آرامش - @AramishVoice";
 	}
 	if (findChannel.includes("Quran")) {
-		findChannel = "انس با قرآن";
+		findChannel = "انس با قرآن - @SedayeVahy";
 	}
 	if (findChannel.includes("Adrin")) {
-		findChannel = "آدرین موزیک";
+		findChannel = "آدرین موزیک - @AdrinMusic";
 	}
 	
-	let takeText = "📅 روز " + date + "\r\n⏰ ساعت:" + time + "\r\n🆔 کانال: " + findChannel + "\r\n🔺 جایگاه: " + adPosition + "\r\n🔻 قیمت: PRICE\r\n\r\nℹ️ بنر شما از ساعت" + time;
+	let takeText = "📅 " + date + "\r\n\r\n⏰ ساعت:" + time + "\r\n🆔 کانال: " + findChannel + "\r\n🔺 جایگاه: " + adPosition + "\r\n🔻 قیمت: " + adPrice + "\r\n\r\nℹ️ بنر شما از ساعت" + time;
 	takeText += " تا ساعت " + FindNextTime(time, findChannel) + " " + adPosition + " کانال " + findChannel + " خواهد بود. بعد از آن تبلیغ شما پست آزاد می‌شود، بنر ۲۴ ساعت بعد از قرار کرفتن در کانال حدف می‌شود.";
 	
 	CopyTheText(takeText);
@@ -335,6 +337,71 @@ function CopyMe(type, element) {
 	}, 1000);
 }
 
+function CalculateAdPrice(channelName, adPosition, adTime, theDate) {
+	let targetDate = CalculateDate(theDate.substr(theDate.indexOf('۱۴۰'))),
+		discountTill = 14030121;
+	
+	let thePrice = "PRICE";
+	
+	//console.log("targetDate: " + theDate.substr(theDate.indexOf('۱۴۰')));
+	
+	let disCountApplies = (discountTill >= targetDate), isNight = adTime.includes("شب");
+	
+	//console.log("disCountApplies: " + disCountApplies + " | isNight: " + isNight);
+	
+	if (channelName.includes("Shad") || channelName.includes("Adrin")) {
+		if (adPosition == 0) {
+			thePrice = "۱۵۰،۰۰۰";
+		}
+		else {
+			if (isNight) {
+				thePrice = "۲۵۰،۰۰۰";
+			}
+			else {
+				thePrice = "۲۰۰،۰۰۰";
+			}
+		}
+	}
+	else if (channelName.includes("Aramish") || channelName.includes("Quran")) {
+		if (adPosition == 0) {
+			if (isNight) {
+				if (disCountApplies) {
+					thePrice = "۱۸۰،۰۰۰";
+				}
+				else {
+					thePrice = "۲۰۰،۰۰۰";
+				}
+			}
+			else {
+				if (disCountApplies) {
+					thePrice = "۱۵۰،۰۰۰";
+				}
+				else {
+					thePrice = "۱۸۰،۰۰۰";
+				}
+			}
+		}
+		else {
+			if (isNight) {
+				if (disCountApplies) {
+					thePrice = "۲۸۰،۰۰۰";
+				}
+				else {
+					thePrice = "۳۰۰،۰۰۰";
+				}
+			}
+			else {
+				if (disCountApplies) {
+					thePrice = "۲۲۰،۰۰۰";
+				}
+				else {
+					thePrice = "۲۵۰،۰۰۰";
+				}
+			}
+		}
+	}
+	return thePrice + " تومان";
+}
 
 function FindNextTime(curtime, channlName) {
 	if (curtime.includes("۱۰:۳۰")) {
