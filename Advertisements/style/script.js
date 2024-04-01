@@ -9,6 +9,18 @@
 
 var _dataJSON = null, _activeChannels = null, _chanInputs = null, _finishedLoading = false;
 
+function AppendUpdateTime(theContainer, jsondata) {
+	if ('Update' in jsondata) {
+		let theDate = new Date(jsondata.Update);
+		let showString = "بروزرسانی شده: " + theDate.toLocaleTimeString('fa-IR') + " - " + theDate.toLocaleDateString('fa-IR');
+		
+		let timeElement = document.createElement("div");
+		timeElement.className = "timeDiv";
+		timeElement.innerHTML = '<div class="spinner-grow"><span class="visually-hidden">Loading..</span></div> ' + showString;
+		theContainer.appendChild(timeElement);	
+	}
+}
+
 function parseJSONData(jsondata, activechannel, isoffline) {
 	localStorage.setItem("activeCHN", JSON.stringify(activechannel));
 
@@ -23,6 +35,10 @@ function parseJSONData(jsondata, activechannel, isoffline) {
 	
 	let theContainer = document.querySelector(".container");
 	theContainer.innerHTML = "";
+	
+	if (jsondata.length > 4) {
+		AppendUpdateTime(theContainer, jsondata[4]);
+	}
 	
 	let maxPos = FindStopLength(jsondata, activechannel);
 	
@@ -488,7 +504,7 @@ function FocusOnToday(isoffline) {
 			
 			//availableDates[i].parentNode.parentNode.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
 			
-			let scrollTop = availableDates[i].parentNode.parentNode.offsetTop - 40;
+			let scrollTop = availableDates[i].parentNode.parentNode.offsetTop - 60;
 			if (scrollTop < 0)
 				scrollTop = 0;
 			

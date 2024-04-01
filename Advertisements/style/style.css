@@ -104,13 +104,21 @@ body.mobile {
 	width: calc(100.0vw - 30px);
 	border: 2px solid white;
 	border-radius: 4px;
-	height: calc(100.0vh - 30px);
+	height: calc(100.0vh - 72px);
 	margin-top: 15px;
 	background-color: rgba(255, 255, 255, 0.2);
 	min-width: 350px;
 	max-width: calc(100.0vw / 2);
 	overflow: auto;
+	transition: height 0.35s ease;
 }
+
+@media only screen and (min-width: 665px) {
+	.container {
+		height: calc(100.0vh - 30px);		
+	}
+}
+
 
 .day {
 	margin-top: 15px;
@@ -417,4 +425,60 @@ body.mobile {
   40%  {background-position: 50%;}
   75%  {background-position: 50%;}
   100% {background-position: 100%;}
+}
+
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+.spinner-grow {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    vertical-align: -6px;
+    background-color: currentColor;
+    border-radius: 50%;
+    opacity: 0;
+    -webkit-animation: .75s linear infinite spinner-grow;
+    animation: .75s linear infinite spinner-grow;
+    color: #fdff00;
+}
+
+@-webkit-keyframes spinner-grow {
+  0% {
+    transform: scale(0)
+  }
+
+  50% {
+    opacity: 1;
+    transform: none
+  }
+}
+
+@keyframes spinner-grow {
+  0% {
+    transform: scale(0)
+  }
+
+  50% {
+    opacity: 1;
+    transform: none
+  }
+}
+
+.timeDiv {
+    text-align: center;
+    direction: rtl;
+    color: white;
+    text-shadow: 2px 2px 12px #811ca9;
+	margin-top: 7px;
+    margin-bottom: -4px;
 }
