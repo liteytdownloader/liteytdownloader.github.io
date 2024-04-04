@@ -314,6 +314,8 @@ function CopyMe(type, element) {
 	let time = element.parentNode.querySelector(".time").innerText,
 		date = FixDateString(element.parentNode.parentNode.querySelector(".title").innerText);
 	
+	date = getHowManyDays(date);
+	
 	let findChannel = element.className, adPosition = "آخرین مطلب ارسالی (جایگاه اول)";
 	if (type == 0) {
 		adPosition = "یک مطلب مانده به آخر (جایگاه دوم)";
@@ -355,6 +357,62 @@ function CopyMe(type, element) {
 	setTimeout(function() {
 		element.className = oldClass;
 	}, 1000);
+}
+
+function getHowManyDays(date) {
+	let dateData = date.split(' - ');
+	if (dateData.length == 2) {
+		let targetDate = CalculateDate(dateData[1]);
+		
+		let curDate = Date.now();
+		let howManyDates = 0;
+		
+		while (true) {
+			let generateDate = new Date(curDate);
+			let curDateINT = CalculateDate(generateDate.toLocaleDateString('fa-IR'));
+			console.log(curDateINT);
+			if (curDateINT > targetDate) {
+				curDate -= (24 * 60 * 60 * 1000);
+				howManyDates--;
+			}
+			else if (curDateINT < targetDate) {
+				curDate += (24 * 60 * 60 * 1000);
+				howManyDates++;
+			}
+			else {
+				break;
+			}
+		}
+		
+		let dayString = "امروز";
+		if (howManyDates < 0) {
+			if (howManyDates == -1) {
+				dayString = "دیروز";
+			}
+			else if (howManyDates == -2) {
+				dayString = "پریروز";
+			}
+			else {
+				dayString = ConvertEnglishToPersian(Math.abs(howManyDates).toString()) + " روز قبل";
+			}
+		}
+		else if (howManyDates > 0) {
+			if (howManyDates == 1) {
+				dayString = "فردا";
+			}
+			else if (howManyDates == 2) {
+				dayString = "پس فردا";
+			}
+			else {
+				dayString = ConvertEnglishToPersian(Math.abs(howManyDates).toString()) + " روز بعد";
+			}
+		}
+		
+		if (dayString.length > 0) {
+			 return dateData[0] + " (" + dayString + ") - " + dateData[1];
+		}
+	}
+	return date;
 }
 
 function CalculateAdPrice(channelName, adPosition, adTime, theDate) {
@@ -587,8 +645,19 @@ function ConvertPersianToEnglish(input) {
 	return input;
 }
 
+function ConvertEnglishToPersian(input) {
+	var persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'], englishNumbers  = [/0/g, /1/g, /2/g, /3/g, /4/g, /5/g, /6/g, /7/g, /8/g, /9/g], arabicNumbers  = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g]; 
+	for(var i = 0; i < 10; i++)
+	{
+		input = input.replace(englishNumbers[i], persianNumbers[i]).replace(arabicNumbers[i], persianNumbers[i]);
+	}
+	return input;
+}
+
 function CalculateDate(input) {
 	let theDate = ConvertPersianToEnglish(input).split('/');
+	if (theDate.length != 3)
+		return 0;
 	
 	if (theDate[1].length < 2)
 		theDate[1] = "0" + theDate[1];
