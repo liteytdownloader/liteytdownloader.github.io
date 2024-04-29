@@ -336,12 +336,12 @@ function CopyMe(type, element) {
 		findChannel = "آدرین موزیک - @AdrinMusic";
 	}
 	
-	let takeText = "📅 " + date + "\r\n\r\n⏰ ساعت:" + time + "\r\n🆔 کانال: " + findChannel + "\r\n🔺 جایگاه: " + adPosition + "\r\n🔻 قیمت: " + adPrice + "\r\n\r\nℹ️ بنر شما از ساعت" + time;
+	let takeText = "📅 " + date + "\r\n\r\n⏰ ساعت:" + time + "\r\n📣 کانال: " + findChannel + "\r\n📌 جایگاه: " + adPosition + "\r\n💶 قیمت: " + adPrice + "\r\n\r\nℹ️ بنر شما از ساعت" + time;
 	
 	if (findChannel.includes(' -'))
 		findChannel = findChannel.substr(0, findChannel.indexOf(' -'));
 	
-	takeText += " تا ساعت " + FindNextTime(time, findChannel) + " " + adPosition + " کانال " + findChannel + " خواهد بود. بعد از آن تبلیغ شما پست آزاد می‌شود، بنر ۲۴ ساعت بعد از قرار کرفتن در کانال حدف می‌شود.";
+	takeText += " تا ساعت " + FindNextTime(time, findChannel) + " " + adPosition + " کانال " + findChannel + " خواهد بود. بعد از آن تبلیغ شما پست آزاد می‌شود، بنر ۲۴ ساعت بعد از قرار گرفتن در کانال حذف می‌شود.";
 	
 	CopyTheText(takeText);
 	
