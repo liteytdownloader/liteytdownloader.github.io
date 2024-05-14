@@ -598,12 +598,11 @@ function EmptyDay() {
 
 function loadUpdatedData() {
 	if (typeof(JSHandler) != 'undefined') {
-		alert("Yes android!");
-		PrepareDataToUser(JSHandler.getJson(), false);
+		console.log("Yes android!");
+		PrepareDataToUser(JSON.parse(JSHandler.getJson()), false);
 		_finishedLoading = true;
 	}
 	else {
-		alert("NOt android");
 		fetch("https://ads.lxb.ir/post/100", {cache: "no-cache"}).then((response) => {
 			if (response.ok) {
 				response.text().then(resp =>
