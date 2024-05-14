@@ -599,7 +599,14 @@ function EmptyDay() {
 function loadUpdatedData() {
 	if (typeof(JSHandler) != 'undefined') {
 		console.log("Yes android!");
-		PrepareDataToUser(JSON.parse(JSHandler.getJson()), false);
+		let jsonResponse = JSHandler.getJson();
+		console.log(jsonResponse);
+		if (jsonResponse == "null") {
+			PrepareDataToUser(null, false);
+		}
+		else {
+			PrepareDataToUser(JSON.parse(jsonResponse), false);
+		}
 		_finishedLoading = true;
 	}
 	else {
