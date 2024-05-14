@@ -603,6 +603,7 @@ function loadUpdatedData() {
 		_finishedLoading = true;
 	}
 	else {
+		alert("NOt android");
 		fetch("https://ads.lxb.ir/post/100", {cache: "no-cache"}).then((response) => {
 			if (response.ok) {
 				response.text().then(resp =>
