@@ -597,29 +597,36 @@ function EmptyDay() {
 }
 
 function loadUpdatedData() {
-	fetch("https://ads.lxb.ir/post/100", {cache: "no-cache"}).then((response) => {
-		if (response.ok) {
-			response.text().then(resp =>
-			{
-				let startPos = resp.indexOf("["), finishPos = resp.indexOf("];", startPos);
-				if (startPos != -1 && finishPos != -1) {
-					finishPos++;
-					let jsonData = JSON.parse(resp.substr(startPos, finishPos - startPos));
+	if (typeof(JSHandler) != 'undefined') {
+		alert("Yes android!");
+		PrepareDataToUser(JSHandler.getJson(), false);
+		_finishedLoading = true;
+	}
+	else {
+		fetch("https://ads.lxb.ir/post/100", {cache: "no-cache"}).then((response) => {
+			if (response.ok) {
+				response.text().then(resp =>
+				{
+					let startPos = resp.indexOf("["), finishPos = resp.indexOf("];", startPos);
+					if (startPos != -1 && finishPos != -1) {
+						finishPos++;
+						let jsonData = JSON.parse(resp.substr(startPos, finishPos - startPos));
+						
+						PrepareDataToUser(jsonData, false);
+					}
 					
-					PrepareDataToUser(jsonData, false);
-				}
-				
+					_finishedLoading = true;
+				});
+			}
+			else {
+				PrepareDataToUser(null, false);
 				_finishedLoading = true;
-			});
-		}
-		else {
+			}
+		}).catch((msg) => {
 			PrepareDataToUser(null, false);
 			_finishedLoading = true;
-		}
-	}).catch((msg) => {
-		PrepareDataToUser(null, false);
-		_finishedLoading = true;
-	});
+		});
+	}
 }
 
 var _todaysDateINT = null;
