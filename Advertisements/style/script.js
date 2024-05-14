@@ -598,9 +598,7 @@ function EmptyDay() {
 
 function loadUpdatedData() {
 	if (typeof(JSHandler) != 'undefined') {
-		console.log("Yes android!");
 		let jsonResponse = JSHandler.getJson();
-		console.log(jsonResponse);
 		if (jsonResponse == "null") {
 			PrepareDataToUser(null, false);
 		}
