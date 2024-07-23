@@ -1,0 +1,476 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Language" content="fa" />
+	<link href="video-js.min.css" rel="stylesheet">
+	<script src="video.min.js"></script>
+	<script src="something.js"></script>
+
+</head>
+
+<body>
+	<style>
+		body {
+			margin: 0px;
+			padding: 0px;
+			background-color: #313131;
+		}
+		
+		.video-js {
+			position: relative !important;
+			width: 100% !important;
+			height: 100% !important;
+		}
+		
+		.liveContainer {
+			width: 100vw;
+			height: 40vh;
+			box-shadow: 0px 0px 10px #a6a6a6;
+		}
+		
+		.vjs-control-bar {
+			background: rgba(0, 0, 0, 0.3) !important;
+		}
+
+		@font-face {
+		  font-family: AdobeArabic;
+		  src: url('sitefont.otf');
+		}
+
+		.vjs-menu-item-text
+		{
+			font-family: AdobeArabic !important;
+			font-size: 1rem !important;
+		}
+		
+		.vjs-menu-content {
+			background-color: rgba(0, 0, 0, .5) !important;
+			border-radius: 3px 3px 0px 0px !important;
+		}
+		
+		.filmsContainer {
+			width: 100vw;
+			height: 60vh;
+			overflow: auto;
+			direction: rtl;
+		}
+		
+		.filmCategory
+		{
+			position: relative;
+			padding: 10px;
+			
+		}
+		
+		.filmPic, .filmTitle, .Episode {
+			cursor: pointer;
+		}
+		
+		.filmPic {
+			--thumb: url('https://s35.upera.net/thumb?w=140&h=140&q=90&src=https://s35.upera.net/s3/posters/Wgi8xPYySoAQPX8CD8bV.jpg');
+			background-image: var(--thumb);
+			height: 70px;
+			width: 70px;
+			background-size: cover;
+			display: inline-block;
+		}
+		
+		.filmTitle
+		{
+			position: relative;
+			display: inline-block;
+			color: white;
+			font-family: 'AdobeArabic';
+			font-size: 1.2rem;
+			top: -56px;
+			right: 5px;
+		}
+		
+		.Episode {
+			border: 2px solid #a3a3a3;
+			border-radius: 3px;
+			padding: 3px;
+			color: white;
+			display: inline-block;
+			font-family: 'AdobeArabic';
+			font-size: 1.15rem;
+		}
+		
+		.Episode:not(:last-child) {
+			margin-left: 2px; 
+		}
+		
+		.filmEpisodes {
+			display: inline-block;
+			position: absolute;
+			margin-top: 33px;
+			right: 88px;
+			width: calc(100.0vw - 109px);
+			overflow: auto;
+			white-space: nowrap;
+		}
+	</style>
+	
+	<div class="liveContainer">
+		<video
+		id="my-player"
+		class="video-js"
+		controls
+		preload="auto"
+		poster="https://s35.upera.net/s3/posters/WnFOLuFcddH1FlELFxOM.jpg"
+		data-setup='{}'>
+	  <source src="https://adrin.upera.tv/2984234-0-hls.m3u8?ref=w1iu" type="application/x-mpegURL"></source>
+	  <p class="vjs-no-js">
+		To view this video please enable JavaScript, and consider upgrading to a
+		web browser that
+		<a href="https://videojs.com/html5-video-support/" target="_blank">
+		  supports HTML5 video
+		</a>
+	  </p>
+	</video>
+	</div>
+	<div class="filmsContainer">
+		<div class="filmCategory">
+			<div class="filmPic">
+				<!--
+				https://s35.upera.net/thumb?w=200&h=296&q=90&src=https://s35.upera.net/s3/posters/Wgi8xPYySoAQPX8CD8bV.jpg
+				-->
+			</div>
+			<div class="filmTitle">
+				باب اسفنجی
+			</div>
+			
+			<div class="filmEpisodes">
+				<div class="Episode">قسمت 1</div>
+				<div class="Episode">قسمت 2</div>
+				<div class="Episode">قسمت 3</div>
+				<div class="Episode">قسمت 4</div>
+				<div class="Episode">قسمت 5</div>
+				<div class="Episode">قسمت 6</div>
+				<div class="Episode">قسمت 7</div>
+				
+			</div>
+		</div>
+		
+		<div class="filmCategory">
+			<div class="filmPic" style="--thumb: url('https://s35.upera.net/thumb?w=140&h=140&q=90&src=https://s35.upera.net/s3/posters/n991NvfBdGguV0JRx7w1.jpg')">
+				<!--
+				https://s35.upera.net/thumb?w=200&h=296&q=90&src=https://s35.upera.net/s3/posters/Wgi8xPYySoAQPX8CD8bV.jpg
+				-->
+			</div>
+			<div class="filmTitle">
+				تامتامتامتامتام و جری
+			</div>
+			
+			<div class="filmEpisodes">
+				<div class="Episode">قسمت 1</div>
+				<div class="Episode">قسمت 2</div>
+				<div class="Episode">قسمت 3</div>
+				<div class="Episode">قسمت 4</div>
+				<div class="Episode">قسمت 5</div>
+				<div class="Episode">قسمت 6</div>
+				<div class="Episode">قسمت 7</div>
+			</div>
+		</div>
+		
+		<div class="filmCategory">
+			<div class="filmPic" style="--thumb: url('https://s35.upera.net/thumb?w=140&h=140&q=90&src=https://s35.upera.net/s3/posters/n991NvfBdGguV0JRx7w1.jpg')">
+				<!--
+				https://s35.upera.net/thumb?w=200&h=296&q=90&src=https://s35.upera.net/s3/posters/Wgi8xPYySoAQPX8CD8bV.jpg
+				-->
+			</div>
+			<div class="filmTitle">
+				تامتامتامتامتام و جری
+			</div>
+			
+			<div class="filmEpisodes">
+				<div class="Episode">قسمت 1</div>
+				<div class="Episode">قسمت 2</div>
+				<div class="Episode">قسمت 3</div>
+				<div class="Episode">قسمت 4</div>
+				<div class="Episode">قسمت 5</div>
+				<div class="Episode">قسمت 6</div>
+				<div class="Episode">قسمت 7</div>
+			</div>
+		</div>
+		
+		<div class="filmCategory">
+			<div class="filmPic" style="--thumb: url('https://s35.upera.net/thumb?w=140&h=140&q=90&src=https://s35.upera.net/s3/posters/n991NvfBdGguV0JRx7w1.jpg')">
+				<!--
+				https://s35.upera.net/thumb?w=200&h=296&q=90&src=https://s35.upera.net/s3/posters/Wgi8xPYySoAQPX8CD8bV.jpg
+				-->
+			</div>
+			<div class="filmTitle">
+				تامتامتامتامتام و جری
+			</div>
+			
+			<div class="filmEpisodes">
+				<div class="Episode">قسمت 1</div>
+				<div class="Episode">قسمت 2</div>
+				<div class="Episode">قسمت 3</div>
+				<div class="Episode">قسمت 4</div>
+				<div class="Episode">قسمت 5</div>
+				<div class="Episode">قسمت 6</div>
+				<div class="Episode">قسمت 7</div>
+			</div>
+		</div>
+		
+		<div class="filmCategory">
+			<div class="filmPic" style="--thumb: url('https://s35.upera.net/thumb?w=140&h=140&q=90&src=https://s35.upera.net/s3/posters/n991NvfBdGguV0JRx7w1.jpg')">
+				<!--
+				https://s35.upera.net/thumb?w=200&h=296&q=90&src=https://s35.upera.net/s3/posters/Wgi8xPYySoAQPX8CD8bV.jpg
+				-->
+			</div>
+			<div class="filmTitle">
+				تامتامتامتامتام و جری
+			</div>
+			
+			<div class="filmEpisodes">
+				<div class="Episode">قسمت 1</div>
+				<div class="Episode">قسمت 2</div>
+				<div class="Episode">قسمت 3</div>
+				<div class="Episode">قسمت 4</div>
+				<div class="Episode">قسمت 5</div>
+				<div class="Episode">قسمت 6</div>
+				<div class="Episode">قسمت 7</div>
+			</div>
+		</div>
+		
+		<div class="filmCategory">
+			<div class="filmPic" style="--thumb: url('https://s35.upera.net/thumb?w=140&h=140&q=90&src=https://s35.upera.net/s3/posters/n991NvfBdGguV0JRx7w1.jpg')">
+				<!--
+				https://s35.upera.net/thumb?w=200&h=296&q=90&src=https://s35.upera.net/s3/posters/Wgi8xPYySoAQPX8CD8bV.jpg
+				-->
+			</div>
+			<div class="filmTitle">
+				تامتامتامتامتام و جری
+			</div>
+			
+			<div class="filmEpisodes">
+				<div class="Episode">قسمت 1</div>
+				<div class="Episode">قسمت 2</div>
+				<div class="Episode">قسمت 3</div>
+				<div class="Episode">قسمت 4</div>
+				<div class="Episode">قسمت 5</div>
+				<div class="Episode">قسمت 6</div>
+				<div class="Episode">قسمت 7</div>
+			</div>
+		</div>
+		
+		<div class="filmCategory">
+			<div class="filmPic" style="--thumb: url('https://s35.upera.net/thumb?w=140&h=140&q=90&src=https://s35.upera.net/s3/posters/n991NvfBdGguV0JRx7w1.jpg')">
+				<!--
+				https://s35.upera.net/thumb?w=200&h=296&q=90&src=https://s35.upera.net/s3/posters/Wgi8xPYySoAQPX8CD8bV.jpg
+				-->
+			</div>
+			<div class="filmTitle">
+				تامتامتامتامتام و جری
+			</div>
+			
+			<div class="filmEpisodes">
+				<div class="Episode">قسمت 1</div>
+				<div class="Episode">قسمت 2</div>
+				<div class="Episode">قسمت 3</div>
+				<div class="Episode">قسمت 4</div>
+				<div class="Episode">قسمت 5</div>
+				<div class="Episode">قسمت 6</div>
+				<div class="Episode">قسمت 7</div>
+			</div>
+		</div>
+		<div class="filmCategory">
+			<div class="filmPic" style="--thumb: url('https://s35.upera.net/thumb?w=140&h=140&q=90&src=https://s35.upera.net/s3/posters/n991NvfBdGguV0JRx7w1.jpg')">
+				<!--
+				https://s35.upera.net/thumb?w=200&h=296&q=90&src=https://s35.upera.net/s3/posters/Wgi8xPYySoAQPX8CD8bV.jpg
+				-->
+			</div>
+			<div class="filmTitle">
+				تامتامتامتامتام و جری
+			</div>
+			
+			<div class="filmEpisodes">
+				<div class="Episode">قسمت 1</div>
+				<div class="Episode">قسمت 2</div>
+				<div class="Episode">قسمت 3</div>
+				<div class="Episode">قسمت 4</div>
+				<div class="Episode">قسمت 5</div>
+				<div class="Episode">قسمت 6</div>
+				<div class="Episode">قسمت 7</div>
+			</div>
+		</div>
+		
+		<div class="filmCategory">
+			<div class="filmPic" style="--thumb: url('https://s35.upera.net/thumb?w=140&h=140&q=90&src=https://s35.upera.net/s3/posters/n991NvfBdGguV0JRx7w1.jpg')">
+				<!--
+				https://s35.upera.net/thumb?w=200&h=296&q=90&src=https://s35.upera.net/s3/posters/Wgi8xPYySoAQPX8CD8bV.jpg
+				-->
+			</div>
+			<div class="filmTitle">
+				تامتامتامتامتام و جری
+			</div>
+			
+			<div class="filmEpisodes">
+				<div class="Episode">قسمت 1</div>
+				<div class="Episode">قسمت 2</div>
+				<div class="Episode">قسمت 3</div>
+				<div class="Episode">قسمت 4</div>
+				<div class="Episode">قسمت 5</div>
+				<div class="Episode">قسمت 6</div>
+				<div class="Episode">قسمت 7</div>
+			</div>
+		</div>
+		
+		<div class="filmCategory">
+			<div class="filmPic" style="--thumb: url('https://s35.upera.net/thumb?w=140&h=140&q=90&src=https://s35.upera.net/s3/posters/n991NvfBdGguV0JRx7w1.jpg')">
+				<!--
+				https://s35.upera.net/thumb?w=200&h=296&q=90&src=https://s35.upera.net/s3/posters/Wgi8xPYySoAQPX8CD8bV.jpg
+				-->
+			</div>
+			<div class="filmTitle">
+				تامتامتامتامتام و جری
+			</div>
+			
+			<div class="filmEpisodes">
+				<div class="Episode">قسمت 1</div>
+				<div class="Episode">قسمت 2</div>
+				<div class="Episode">قسمت 3</div>
+				<div class="Episode">قسمت 4</div>
+				<div class="Episode">قسمت 5</div>
+				<div class="Episode">قسمت 6</div>
+				<div class="Episode">قسمت 7</div>
+			</div>
+		</div>
+		
+		<div class="filmCategory">
+			<div class="filmPic" style="--thumb: url('https://s35.upera.net/thumb?w=140&h=140&q=90&src=https://s35.upera.net/s3/posters/n991NvfBdGguV0JRx7w1.jpg')">
+				<!--
+				https://s35.upera.net/thumb?w=200&h=296&q=90&src=https://s35.upera.net/s3/posters/Wgi8xPYySoAQPX8CD8bV.jpg
+				-->
+			</div>
+			<div class="filmTitle">
+				تامتامتامتامتام و جری
+			</div>
+			
+			<div class="filmEpisodes">
+				<div class="Episode">قسمت 1</div>
+				<div class="Episode">قسمت 2</div>
+				<div class="Episode">قسمت 3</div>
+				<div class="Episode">قسمت 4</div>
+				<div class="Episode">قسمت 5</div>
+				<div class="Episode">قسمت 6</div>
+				<div class="Episode">قسمت 7</div>
+			</div>
+		</div>
+		
+		<div class="filmCategory">
+			<div class="filmPic" style="--thumb: url('https://s35.upera.net/thumb?w=140&h=140&q=90&src=https://s35.upera.net/s3/posters/n991NvfBdGguV0JRx7w1.jpg')">
+				<!--
+				https://s35.upera.net/thumb?w=200&h=296&q=90&src=https://s35.upera.net/s3/posters/Wgi8xPYySoAQPX8CD8bV.jpg
+				-->
+			</div>
+			<div class="filmTitle">
+				تامتامتامتامتام و جری
+			</div>
+			
+			<div class="filmEpisodes">
+				<div class="Episode">قسمت 1</div>
+				<div class="Episode">قسمت 2</div>
+				<div class="Episode">قسمت 3</div>
+				<div class="Episode">قسمت 4</div>
+				<div class="Episode">قسمت 5</div>
+				<div class="Episode">قسمت 6</div>
+				<div class="Episode">قسمت 7</div>
+			</div>
+		</div>
+		
+		<div class="filmCategory">
+			<div class="filmPic" style="--thumb: url('https://s35.upera.net/thumb?w=140&h=140&q=90&src=https://s35.upera.net/s3/posters/n991NvfBdGguV0JRx7w1.jpg')">
+				<!--
+				https://s35.upera.net/thumb?w=200&h=296&q=90&src=https://s35.upera.net/s3/posters/Wgi8xPYySoAQPX8CD8bV.jpg
+				-->
+			</div>
+			<div class="filmTitle">
+				تامتامتامتامتام و جری
+			</div>
+			
+			<div class="filmEpisodes">
+				<div class="Episode">قسمت 1</div>
+				<div class="Episode">قسمت 2</div>
+				<div class="Episode">قسمت 3</div>
+				<div class="Episode">قسمت 4</div>
+				<div class="Episode">قسمت 5</div>
+				<div class="Episode">قسمت 6</div>
+				<div class="Episode">قسمت 7</div>
+			</div>
+		</div>
+		
+		<div class="filmCategory">
+			<div class="filmPic" style="--thumb: url('https://s35.upera.net/thumb?w=140&h=140&q=90&src=https://s35.upera.net/s3/posters/n991NvfBdGguV0JRx7w1.jpg')">
+				<!--
+				https://s35.upera.net/thumb?w=200&h=296&q=90&src=https://s35.upera.net/s3/posters/Wgi8xPYySoAQPX8CD8bV.jpg
+				-->
+			</div>
+			<div class="filmTitle">
+				تامتامتامتامتام و جری
+			</div>
+			
+			<div class="filmEpisodes">
+				<div class="Episode">قسمت 1</div>
+				<div class="Episode">قسمت 2</div>
+				<div class="Episode">قسمت 3</div>
+				<div class="Episode">قسمت 4</div>
+				<div class="Episode">قسمت 5</div>
+				<div class="Episode">قسمت 6</div>
+				<div class="Episode">قسمت 7</div>
+			</div>
+		</div>
+		
+		<div class="filmCategory">
+			<div class="filmPic" style="--thumb: url('https://s35.upera.net/thumb?w=140&h=140&q=90&src=https://s35.upera.net/s3/posters/n991NvfBdGguV0JRx7w1.jpg')">
+				<!--
+				https://s35.upera.net/thumb?w=200&h=296&q=90&src=https://s35.upera.net/s3/posters/Wgi8xPYySoAQPX8CD8bV.jpg
+				-->
+			</div>
+			<div class="filmTitle">
+				تامتامتامتامتام و جری
+			</div>
+			
+			<div class="filmEpisodes">
+				<div class="Episode">قسمت 1</div>
+				<div class="Episode">قسمت 2</div>
+				<div class="Episode">قسمت 3</div>
+				<div class="Episode">قسمت 4</div>
+				<div class="Episode">قسمت 5</div>
+				<div class="Episode">قسمت 6</div>
+				<div class="Episode">قسمت 7</div>
+			</div>
+		</div>
+	</div>
+<script>
+var options = {
+//autoplay: true,
+//muted: true
+};
+	var player = videojs('my-player', options);
+	
+	let qualityLevels = player.qualityLevels();
+
+	qualityLevels.on('addqualitylevel', function(event) {	
+		let qualitLevel = event.qualityLevel;
+		let height = qualitLevel.height;
+		
+		if (qualitLevel.width < qualitLevel.height) {
+			qualitLevel.height = qualitLevel.width;	
+			qualitLevel.width = height;
+		}
+	});
+	
+	player.ready(function() {
+		console.log("ready");
+		player.qualityMenu();
+	});
+	//console.log(player.qualityLevels());
+	//player.httpSourceSelector();
+	//player.play();
+</script>
+</body>
+</html>
