@@ -92,8 +92,8 @@
 		
 		.Episode {
 			border: 2px solid #a3a3a3;
-			border-radius: 3px;
-			padding: 3px;
+			border-radius: 10px;
+			padding: 3px 5px;
 			color: white;
 			display: inline-block;
 			font-family: 'AdobeArabic';
@@ -112,11 +112,14 @@
 		.filmEpisodes {
 			display: inline-block;
 			position: absolute;
-			margin-top: 43px;
+			margin-top: 34px;
 			right: 75px;
-			width: calc(100.0vw - 109px);
+			width: calc(100% - 93px);
 			overflow: auto;
 			white-space: nowrap;
+			background-color: rgba(0, 0, 0, 0.6);
+			border-radius: 16px;
+			padding: 5px;
 		}
 	</style>
 	
@@ -168,49 +171,7 @@
 	</script>
 	
 	</div>
-	<div class="filmsContainer">
-		<div class="filmCategory">
-			<div class="filmPic">
-				<!--
-				https://s35.upera.net/thumb?w=200&h=296&q=90&src=https://s35.upera.net/s3/posters/Wgi8xPYySoAQPX8CD8bV.jpg
-				-->
-			</div>
-			<div class="filmTitle">
-				باب اسفنجی
-			</div>
-			
-			<div class="filmEpisodes">
-				<div class="Episode">قسمت 1</div>
-				<div class="Episode">قسمت 2</div>
-				<div class="Episode">قسمت 3</div>
-				<div class="Episode">قسمت 4</div>
-				<div class="Episode">قسمت 5</div>
-				<div class="Episode">قسمت 6</div>
-				<div class="Episode">قسمت 7</div>
-				
-			</div>
-		</div>
-		
-		<div class="filmCategory">
-			<div class="filmPic" style="--thumb: url('https://s35.upera.net/thumb?w=140&h=140&q=90&src=https://s35.upera.net/s3/posters/n991NvfBdGguV0JRx7w1.jpg')">
-				<!--
-				https://s35.upera.net/thumb?w=200&h=296&q=90&src=https://s35.upera.net/s3/posters/Wgi8xPYySoAQPX8CD8bV.jpg
-				-->
-			</div>
-			<div class="filmTitle">
-				تامتامتامتامتام و جری
-			</div>
-			
-			<div class="filmEpisodes">
-				<div class="Episode">قسمت 1</div>
-				<div class="Episode">قسمت 2</div>
-				<div class="Episode">قسمت 3</div>
-				<div class="Episode">قسمت 4</div>
-				<div class="Episode">قسمت 5</div>
-				<div class="Episode">قسمت 6</div>
-				<div class="Episode">قسمت 7</div>
-			</div>
-		</div>	
+	<div class="filmsContainer">	
 	</div>
 <script>
 var options = {
@@ -232,6 +193,23 @@ var options = {
 	player.ready(function() {
 		console.log("ready");
 		player.qualityMenu();
+		
+		player.on("ended", function(){ 
+			let activeOne = document.querySelector(".Episode.Active");
+			if (activeOne != null) {
+				if (activeOne.nextSibling != null) {
+					activeOne.nextSibling.click();
+				}
+				else {
+					let activateOne = activeOne.parentNode.querySelector(".Episode");
+					activateOne.click();
+					
+					activateOne.scrollIntoView();
+					activateOne.parentNode.scrollIntoView();
+				}
+			}
+		});
+		
 	});
 	
 	console.log(moviesList);
@@ -245,13 +223,16 @@ var options = {
 		let filmsContainer = document.querySelector(".filmsContainer");
 		filmsContainer.innerHTML = "";
 		
-		for (let i = 0; i < moviesList.Movies.length; i++) {
+		for (let i = (moviesList.Movies.length - 1); i >= 0; i--) {
 			let filmCategory = document.createElement("div");
 			filmCategory.className = "filmCategory";
 			
 			let filmPic = document.createElement("div");
 			filmPic.className = "filmPic";
-			filmPic.style = "--thumb: url('https://s35.upera.net/thumb?w=140&h=207&q=90&src=" + moviesList.Movies[i].Thumb + "')";	
+			filmPic.style = "--thumb: url('https://s35.upera.net/thumb?w=140&h=207&q=90&src=" + moviesList.Movies[i].Thumb + "')";
+			filmPic.onclick = function() {
+				PlayRandomFilm(filmPic);
+			};
 			filmCategory.appendChild(filmPic);
 			
 			let filmTitle = document.createElement("div");
@@ -317,6 +298,7 @@ var options = {
 		let activeOne = document.querySelector(".Episode.Active");
 		if (activeOne != null) {
 			activeOne.scrollIntoView();
+			activeOne.parentNode.scrollIntoView();
 		}
 	
 	/*
@@ -377,6 +359,11 @@ var options = {
 		 return input.replace(/[0-9]/g, function(w){
 			return id[+w];
 		 });
+	}
+	
+	function PlayRandomFilm(element) {
+		let episodes = element.parentNode.querySelector(".filmEpisodes").children;
+		episodes[Math.floor(Math.random() * episodes.length)].click();
 	}
 </script>
 </body>
