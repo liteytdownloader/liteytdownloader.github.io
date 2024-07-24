@@ -9,6 +9,7 @@
 	<script src="movies.js"></script>
 	<link rel="stylesheet" href="fontawesome.min.css">
 	<link rel="stylesheet" href="solid.min.css">
+	<link rel="stylesheet" href="duotone.min.css">
 </head>
 
 <body>
@@ -17,6 +18,13 @@
 			margin: 0px;
 			padding: 0px;
 			background-color: #313131;
+			-webkit-tap-highlight-color: transparent;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
 		}
 		
 		.video-js {
@@ -27,7 +35,7 @@
 		
 		.liveContainer {
 			width: 100vw;
-			height: 40vh;
+			height: 37vh;
 			/*box-shadow: 0px 0px 10px #a6a6a6;*/
 		}
 		
@@ -53,11 +61,28 @@
 		
 		.filmsContainer {
 			width: calc(100vw - 20px);
-			height: calc(60vh - 20px);
+			height: calc(63vh - 20px);
 			overflow: auto;
 			direction: rtl;
 			padding: 10px;
 			text-align: center;
+		}
+		
+		.filmEpisodesContainer {
+			position: absolute;
+			top: 37vh;
+			right: 0px;
+			width: calc(100vw - 20px);
+			height: calc(63vh - 50px);
+			overflow: auto;
+			direction: rtl;
+			padding: 10px;
+			background-color: #313131;
+			opacity: 0;
+			display: none;
+			transition: opacity 0.3s ease;
+			padding-bottom: 40px;
+			overflow-x: hidden;
 		}
 		
 		.filmCategory
@@ -100,10 +125,16 @@
 			background-size: cover;
 			display: inline-block;
 			border-radius: 2px;
+			transition: transform 0.2s ease, box-shadow 0.2s ease;	
 		}
 		
 		.filmItemPic:not(:last-child) {
 			margin-left: 5px;
+		}
+		
+		.filmItemPic:hover, .filmItemPic:active, .filmItemPic:focus, .filmItemPic:visited {
+			transform: scale(0.94);
+			box-shadow: 0px 0px 25px #1bff00;
 		}
 		
 		.filmTitle
@@ -128,7 +159,7 @@
 			transition: border 0.3s ease ;
 		}
 		
-		.Episode.Active {
+		.Episode.Active, .filmEpisode.Active {
 			border: 2px solid #00cd89;
 		}
 		
@@ -170,8 +201,78 @@
 			position: relative;
 			top: 5px;
 		}
+		
+		.filmEpisode:before {
+			-webkit-font-smoothing: antialiased;
+			display: var(--fa-display, inline-block);
+			font-style: normal;
+			font-variant: normal;
+			line-height: 1;
+			text-rendering: auto;
+			font-weight: 900;
+			font-family: "Font Awesome 6 Pro";
+			content: "\f8a9";
+			transform: scaleX(-1);
+			margin-left: 5px;
+		}
+		
+		.filmEpisode.serial:before {
+			content: "\f008";
+			transform: none;
+		}
+		
+		.filmEpisode {
+			position: relative;
+			color: #ffffff;
+			display: inline-block;
+			border: 2px solid #bababa;
+			padding: 4px 7px;
+			border-radius: 6px;
+			margin-right: 5px;
+			margin-bottom: 8px;
+			transition: transform 0.2s ease, border 0.3s ease;
+			z-index: 3;
+			background: #313131;			
+		}
+		
+		.filmEpisode:focus, .filmEpisode:active, .filmEpisode:visited {
+			transform: scale(0.9);
+		}
+		
+		.filmgoBack:focus, .filmgoBack:active, .filmgoBack:visited {
+			transform: scale(0.97);
+		}
+		
+		.filmgoBack {
+			position: fixed;
+			color: #ffffff;
+			display: inline-block;
+			border: 2px solid #bababa;
+			padding: 4px 7px;
+			border-radius: 6px;
+			transition: transform 0.2s ease, border 0.3s ease;
+			z-index: 4;
+			background: #313131;
+			text-align: center;
+			width: calc(100vw - 50px);
+			right: 15px;
+			bottom: 10px;
+		}
+		
+		.filmCover {
+			position: absolute;
+			background-image: var(--thumb);
+			height: 63vh;
+			width: 100vw;
+			background-size: cover;
+			display: inline-block;
+			border-radius: 2px;
+			z-index: 2;
+			opacity: 0.2;
+			top: 50%; right: 50%;
+			transform: translate(50%,-50%);
+		}
 	</style>
-	
 	<div class="liveContainer">
 		<video
 		id="my-player"
@@ -267,6 +368,14 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="filmEpisodesContainer" style="">
+		<div class="filmCover" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')"></div>
+		<div class="filmEpisode ">ارباب حلقه ها</div>
+		<div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div>
+		
+		<div class="filmgoBack">بازگشت به عقب <i class="fa-duotone fa-solid fa-circle-arrow-left" style="--fa-primary-color: #000000; --fa-secondary-color: #ffffff; --fa-secondary-opacity: 1;"></i></div>
+	</div>
 <script>
 var options = {
 //autoplay: true,
@@ -310,7 +419,7 @@ var options = {
 	//console.log(player.qualityLevels());
 	//player.httpSourceSelector();
 	//player.play();
-	//parseMoviesList();
+	parseMoviesList();
 	
 	function parseMoviesList() {
 		
@@ -318,24 +427,37 @@ var options = {
 		filmsContainer.innerHTML = "";
 		
 		for (let i = (moviesList.Movies.length - 1); i >= 0; i--) {
-			let filmCategory = document.createElement("div");
-			filmCategory.className = "filmCategory";
+			/*
+			<div class="filmItem">
+			<div class="filmItemPic" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')">
+				<div class="filmItemText"><i class="fa-solid fa-clapperboard-play"></i> باب اسفنجی</div>
+			</div>
+		</div>*/
+		
+		
+			let filmItem = document.createElement("div");
+			filmItem.className = "filmItem";
 			
-			let filmPic = document.createElement("div");
-			filmPic.className = "filmPic";
-			filmPic.style = "--thumb: url('https://s35.upera.net/thumb?w=140&h=207&q=90&src=" + moviesList.Movies[i].Thumb + "')";
-			filmPic.onclick = function() {
-				PlayRandomFilm(filmPic);
+			let filmItemPic = document.createElement("div");
+			filmItemPic.className = "filmItemPic";
+			filmItemPic.style = "--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=" + moviesList.Movies[i].Thumb + "')";
+			let myID = i;
+			filmItemPic.onclick = function() {
+				ShowFilmEpisodes(myID);
+				//PlayRandomFilm(filmPic);
 			};
-			filmCategory.appendChild(filmPic);
 			
-			let filmTitle = document.createElement("div");
-			filmTitle.className = "filmTitle";
-			filmTitle.innerText = moviesList.Movies[i].Title;
-			filmCategory.appendChild(filmTitle);
+			let filmItemText = document.createElement("div");
+			filmItemText.className = "filmItemText";
+			filmItemText.innerHTML = '<i class="fa-solid fa-clapperboard-play"></i> ' + moviesList.Movies[i].Title;
+			filmItemPic.appendChild(filmItemText);
+			
+			filmItem.appendChild(filmItemPic);
 			
 			
-			let filmEpisodes = document.createElement("div");
+			
+			
+			/*let filmEpisodes = document.createElement("div");
 			filmEpisodes.className = "filmEpisodes";
 			
 			let episodeID = 1, seaseonID = -1;
@@ -383,9 +505,9 @@ var options = {
 				filmEpisodes.appendChild(Episode);
 			}
 			
-			filmCategory.appendChild(filmEpisodes);
+			filmCategory.appendChild(filmEpisodes);*/
 			
-			filmsContainer.appendChild(filmCategory);
+			filmsContainer.appendChild(filmItem);
 		}
 		
 		
@@ -432,6 +554,93 @@ var options = {
 	]
 		
 		*/
+	}
+	
+	function ShowFilmEpisodes(filmID) {
+		let episodesShower = document.querySelector(".filmEpisodesContainer");
+		episodesShower.style.opacity = 0;
+		
+		episodesShower.innerHTML = "";
+		
+		let filmCover = document.createElement("div");
+		filmCover.className = "filmCover";
+		filmCover.style = "--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=" + moviesList.Movies[filmID].Thumb + "')";
+		episodesShower.appendChild(filmCover);
+		
+		let episodeID = 1, seaseonID = -1;
+		for (let a = 0; a < moviesList.Movies[filmID].Episodes.length; a++) {
+			let filmEpisode = document.createElement("div");
+			filmEpisode.className = "filmEpisode";
+			if ('Title' in moviesList.Movies[filmID].Episodes[a]) {
+				filmEpisode.innerText = moviesList.Movies[filmID].Episodes[a].Title;
+			}
+			else {
+				filmEpisode.className = "filmEpisode serial";
+				if ('SE' in moviesList.Movies[filmID].Episodes[a]) {
+					if (seaseonID != moviesList.Movies[filmID].Episodes[a].SE) {
+						episodeID = 1;
+						seaseonID = moviesList.Movies[filmID].Episodes[a].SE;
+					}
+				
+					filmEpisode.innerText = "فصل " + NumbersToPersian(moviesList.Movies[filmID].Episodes[a].SE) + " - قسمت " + NumbersToPersian(episodeID);
+				}
+				else {			
+					if (seaseonID != -1) {
+						episodeID = 1;
+						seaseonID = -1;
+					}
+					
+					filmEpisode.innerText = "قسمت " + NumbersToPersian(episodeID);
+				}
+				episodeID++;
+			}
+			
+			if (activeURL != null && moviesList.Movies[filmID].Episodes[a].hls === activeURL) {
+				filmEpisode.className += " Active";
+			}
+			
+			let mythumb = moviesList.Movies[filmID].Thumb;
+			filmEpisode.onclick = function() {
+				localStorage.setItem("lastMovie", JSON.stringify({Thumb: mythumb, HLS: moviesList.Movies[filmID].Episodes[a].hls}));
+				PlayEpisode(moviesList.Movies[filmID].Episodes[a].hls, mythumb);
+				
+				let activeOne = document.querySelector(".filmEpisode.Active");
+				if (activeOne != null) {
+					activeOne.className = activeOne.className.replace(" Active", "");
+				}
+				filmEpisode.className += " Active";
+			};
+			episodesShower.appendChild(filmEpisode);
+			
+			let gobackScript = document.createElement("div");
+			gobackScript.className = "filmgoBack";
+			gobackScript.innerHTML = 'بازگشت به عقب <i class="fa-duotone fa-solid fa-circle-arrow-left" style="--fa-primary-color: #000000; --fa-secondary-color: #ffffff; --fa-secondary-opacity: 1;"></i>';
+			
+			gobackScript.onclick = function() {
+				HideFilmEpisodes();
+			};
+			
+			episodesShower.appendChild(gobackScript);
+		}
+		
+		episodesShower.style.display = "block";
+		requestAnimationFrame(function() {
+			episodesShower.style.opacity = 1;
+		});
+		/*<div class="filmEpisodesContainer" style="display: none">
+		<div class="filmCover" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')"></div>
+		<div class="filmEpisode ">ارباب حلقه ها</div>
+		<div class="filmEpisode serial">قسمت 1</div>
+		</div>*/
+		
+	}
+	
+	function HideFilmEpisodes() {
+		let episodesShower = document.querySelector(".filmEpisodesContainer");
+		episodesShower.style.opacity = 0;
+		setTimeout(function() {
+			episodesShower.style.display = "none";
+		}, 270);
 	}
 	
 	function PlayEpisode(episodehls, thumbnail) {
