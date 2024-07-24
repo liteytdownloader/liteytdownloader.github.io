@@ -7,7 +7,8 @@
 	<script src="video.min.js"></script>
 	<script src="something.js"></script>
 	<script src="movies.js"></script>
-
+	<link rel="stylesheet" href="fontawesome.min.css">
+	<link rel="stylesheet" href="solid.min.css">
 </head>
 
 <body>
@@ -51,10 +52,12 @@
 		}
 		
 		.filmsContainer {
-			width: 100vw;
-			height: 60vh;
+			width: calc(100vw - 20px);
+			height: calc(60vh - 20px);
 			overflow: auto;
 			direction: rtl;
+			padding: 10px;
+			text-align: center;
 		}
 		
 		.filmCategory
@@ -64,6 +67,15 @@
 			margin: 10px;
 			background: #505050;
 			border-radius: 3px;
+		}
+		
+		.filmItem
+		{
+			display: inline-block;
+			position: relative;
+			border-radius: 3px;
+			margin-left: 10px;
+			margin-bottom: 60px;
 		}
 		
 		.filmPic, .filmTitle, .Episode {
@@ -77,6 +89,21 @@
 			background-size: cover;
 			display: inline-block;
 			border-radius: 2px;
+		}
+		
+		.filmItemPic {
+			background-image: var(--thumb);
+			height: calc(((100vw / 3) - 13px) * 1.48);
+			width: calc((100vw / 3) - 13px);
+			max-width: 122px;
+			max-height: 180px;
+			background-size: cover;
+			display: inline-block;
+			border-radius: 2px;
+		}
+		
+		.filmItemPic:not(:last-child) {
+			margin-left: 5px;
 		}
 		
 		.filmTitle
@@ -120,6 +147,28 @@
 			background-color: rgba(0, 0, 0, 0.6);
 			border-radius: 16px;
 			padding: 5px;
+		}
+		
+		.filmItemText {
+			position: absolute;
+			top: 100%;
+			color: white;
+			font-family: "AdobeArabic";
+			overflow: hidden;
+			text-overflow: ellipsis;
+			width: 100%;
+			right: 0px;
+			display: inline-block;
+			font-size: 1.2rem;
+			white-space: nowrap;
+		}
+		
+		.fa-clapperboard-play {
+			color: #ebebeb;
+			transform: scaleX(-1);
+			font-size: 1.3rem;
+			position: relative;
+			top: 5px;
 		}
 	</style>
 	
@@ -171,7 +220,52 @@
 	</script>
 	
 	</div>
-	<div class="filmsContainer">	
+	<div class="filmsContainer">
+		<div class="filmItem">
+			<div class="filmItemPic" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')">
+				<div class="filmItemText"><i class="fa-solid fa-clapperboard-play"></i> باب اسفنجی</div>
+			</div>
+		</div>
+		<div class="filmItem">
+			<div class="filmItemPic" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')">
+				<div class="filmItemText"><i class="fa-solid fa-clapperboard-play"></i> باب اسفنجی</div>
+			</div>
+		</div>
+		<div class="filmItem">
+			<div class="filmItemPic" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')">
+				<div class="filmItemText"><i class="fa-solid fa-clapperboard-play"></i> باب اسفنجی</div>
+			</div>
+		</div>
+		<div class="filmItem">
+			<div class="filmItemPic" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')">
+				<div class="filmItemText"><i class="fa-solid fa-clapperboard-play"></i> باب اسفنجی</div>
+			</div>
+		</div>
+		<div class="filmItem">
+			<div class="filmItemPic" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')">
+				<div class="filmItemText"><i class="fa-solid fa-clapperboard-play"></i> باب اسفنجی</div>
+			</div>
+		</div>
+		<div class="filmItem">
+			<div class="filmItemPic" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')">
+				<div class="filmItemText"><i class="fa-solid fa-clapperboard-play"></i> باب اسفنجی</div>
+			</div>
+		</div>
+		<div class="filmItem">
+			<div class="filmItemPic" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')">
+				<div class="filmItemText"><i class="fa-solid fa-clapperboard-play"></i> باب اسفنجی</div>
+			</div>
+		</div>
+		<div class="filmItem">
+			<div class="filmItemPic" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')">
+				<div class="filmItemText"><i class="fa-solid fa-clapperboard-play"></i> باب اسفنجی</div>
+			</div>
+		</div>
+		<div class="filmItem">
+			<div class="filmItemPic" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')">
+				<div class="filmItemText"><i class="fa-solid fa-clapperboard-play"></i> باب اسفنجی</div>
+			</div>
+		</div>
 	</div>
 <script>
 var options = {
@@ -216,7 +310,7 @@ var options = {
 	//console.log(player.qualityLevels());
 	//player.httpSourceSelector();
 	//player.play();
-	parseMoviesList();
+	//parseMoviesList();
 	
 	function parseMoviesList() {
 		
