@@ -5,323 +5,25 @@
 	<meta http-equiv="Content-Language" content="fa" />
 	<link href="video-js.min.css" rel="stylesheet">
 	<script src="video.min.js"></script>
-	<script src="something.js"></script>
-	<script src="movies.js"></script>
+	<script src="qualitylevels.js"></script>
+	<script id="moviesList" src="movies.js"></script>
 	<link rel="stylesheet" href="fontawesome.min.css">
 	<link rel="stylesheet" href="solid.min.css">
 	<link rel="stylesheet" href="duotone.min.css">
+	<link rel="stylesheet" href="style.css">
+	
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-NQ0QL9LDNQ"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-NQ0QL9LDNQ');
+	</script>
 </head>
 
 <body>
-	<style>
-		body {
-			margin: 0px;
-			padding: 0px;
-			background-color: #313131;
-			-webkit-tap-highlight-color: transparent;
-			-webkit-touch-callout: none;
-			-webkit-user-select: none;
-			-khtml-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-			user-select: none;
-		}
-		
-		.video-js {
-			position: relative !important;
-			width: 100% !important;
-			height: 100% !important;
-		}
-		
-		.liveContainer {
-			width: 100vw;
-			height: 37vh;
-			/*box-shadow: 0px 0px 10px #a6a6a6;*/
-		}
-		
-		.vjs-control-bar {
-			background: rgba(0, 0, 0, 0.3) !important;
-		}
-
-		@font-face {
-		  font-family: AdobeArabic;
-		  src: url('sitefont.otf');
-		}
-
-		.vjs-menu-item-text
-		{
-			font-family: AdobeArabic !important;
-			font-size: 1rem !important;
-		}
-		
-		.vjs-menu-content {
-			background-color: rgba(0, 0, 0, .5) !important;
-			border-radius: 3px 3px 0px 0px !important;
-		}
-		
-		.filmsContainer {
-			width: calc(100vw - 10px);
-			height: calc(63vh - 48px);
-			overflow: auto;
-			direction: rtl;
-			padding: 10px 5px;
-			text-align: center;
-			scrollbar-width: none;
-		}
-		
-		.filmEpisodesContainer {
-			position: absolute;
-			top: 37vh;
-			right: 0px;
-			width: calc(100vw - 20px);
-			height: calc(63vh - 50px);
-			overflow: auto;
-			direction: rtl;
-			padding: 10px;
-			background-color: #313131;
-			opacity: 0;
-			display: none;
-			transition: opacity 0.3s ease;
-			padding-bottom: 40px;
-			overflow-x: hidden;
-		}
-		
-		.filmCategory
-		{
-			position: relative;
-			padding: 10px 10px 5px 10px;
-			margin: 10px;
-			background: #505050;
-			border-radius: 3px;
-		}
-		
-		.filmItem
-		{
-			display: inline-block;
-			position: relative;
-			border-radius: 3px;
-			margin-bottom: 60px;
-			
-			padding-right: 5px;
-			padding-left: 5px;
-		}
-		
-		.hideItem {
-			display: none;
-		}
-		
-		.filmPic, .filmTitle, .Episode {
-			cursor: pointer;
-		}
-		
-		.filmPic {
-			background-image: var(--thumb);
-			height: 80px;
-			width: 58px;
-			background-size: cover;
-			display: inline-block;
-			border-radius: 2px;
-		}
-		
-		.filmItemPic {
-			background-image: var(--thumb);
-			height: calc(((100vw / 3) - 14px)* 1.48);
-			width: calc((100vw / 3) - 14px);
-			max-width: 150px;
-			max-height: 222px;
-			background-size: cover;
-			display: inline-block;
-			border-radius: 2px;
-			transition: transform 0.2s ease, box-shadow 0.2s ease;	
-		}
-		
-		.filmItemPic:not(:last-child) {
-			margin-left: 5px;
-		}
-		
-		.filmItemPic:hover, .filmItemPic:active, .filmItemPic:focus, .filmItemPic:visited {
-			transform: scale(0.94);
-			box-shadow: 0px 0px 25px #1bff00;
-		}
-		
-		.filmTitle
-		{
-			position: relative;
-			display: inline-block;
-			color: white;
-			font-family: 'AdobeArabic';
-			font-size: 1.35rem;
-			top: -65px;
-			right: 7px;
-		}
-		
-		.Episode {
-			border: 2px solid #a3a3a3;
-			border-radius: 10px;
-			padding: 3px 5px;
-			color: white;
-			display: inline-block;
-			font-family: 'AdobeArabic';
-			font-size: 1.2rem;
-			transition: border 0.3s ease ;
-		}
-		
-		.Episode.Active, .filmEpisode.Active {
-			border: 2px solid #00cd89;
-		}
-		
-		.Episode:not(:last-child) {
-			margin-left: 6px; 
-		}
-		
-		.filmEpisodes {
-			display: inline-block;
-			position: absolute;
-			margin-top: 34px;
-			right: 75px;
-			width: calc(100% - 93px);
-			overflow: auto;
-			white-space: nowrap;
-			background-color: rgba(0, 0, 0, 0.6);
-			border-radius: 16px;
-			padding: 5px;
-		}
-		
-		.filmItemText {
-			position: absolute;
-			top: 100%;
-			color: white;
-			font-family: "AdobeArabic";
-			overflow: hidden;
-			text-overflow: ellipsis;
-			width: 100%;
-			right: 0px;
-			display: inline-block;
-			font-size: 1.2rem;
-			white-space: nowrap;
-		}
-		
-		.fa-clapperboard-play {
-			color: #ebebeb;
-			transform: scaleX(-1);
-			font-size: 1.3rem;
-			position: relative;
-			top: 5px;
-		}
-		
-		.filmEpisode:before {
-			-webkit-font-smoothing: antialiased;
-			display: var(--fa-display, inline-block);
-			font-style: normal;
-			font-variant: normal;
-			line-height: 1;
-			text-rendering: auto;
-			font-weight: 900;
-			font-family: "Font Awesome 6 Pro";
-			content: "\f8a9";
-			transform: scaleX(-1);
-			margin-left: 5px;
-		}
-		
-		.filmEpisode.serial:before {
-			content: "\f008";
-			transform: none;
-		}
-		
-		.filmEpisode {
-			position: relative;
-			color: #ffffff;
-			display: inline-block;
-			border: 2px solid #bababa;
-			padding: 4px 7px;
-			border-radius: 6px;
-			margin-right: 5px;
-			margin-bottom: 8px;
-			transition: transform 0.2s ease, border 0.3s ease;
-			z-index: 3;
-			background: #313131;			
-		}
-		
-		.filmEpisode:focus, .filmEpisode:active, .filmEpisode:visited {
-			transform: scale(0.9);
-		}
-		
-		.filmgoBack:focus, .filmgoBack:active, .filmgoBack:visited {
-			transform: scale(0.97);
-		}
-		
-		.filmgoBack {
-			position: fixed;
-			color: #ffffff;
-			display: inline-block;
-			border: 2px solid #bababa;
-			padding: 4px 7px;
-			border-radius: 6px;
-			transition: transform 0.2s ease, border 0.3s ease;
-			z-index: 4;
-			background: #313131;
-			text-align: center;
-			width: calc(100vw - 50px);
-			right: 15px;
-			bottom: 10px;
-		}
-		
-		.filmCover {
-			position: absolute;
-			background-image: var(--thumb);
-			height: 63vh;
-			width: 100vw;
-			background-size: cover;
-			display: inline-block;
-			border-radius: 2px;
-			z-index: 2;
-			opacity: 0.4;
-			top: 50%; right: 50%;
-			transform: translate(50%,-50%);
-		}
-		
-		.searchHolder { 
-			text-align: center;
-		}
-		
-		input {
-			height: 25.5px;
-			display: inline-block;
-			font-family: "AdobeArabic";
-			text-align: right;
-			direction: rtl;
-			font-size: 1.12rem;
-			position: relative;
-			top: -3px;
-			border: none;
-			padding: 3px;
-			border-radius: 2px 0px 0px 2px;
-			outline: none;
-			max-width: calc(100vw - 60px);
-			width: 185px;
-		}
-		
-		.searchDiv {
-			display: inline-block;
-			background: #4ecbf7;
-			padding: 4px 6px;
-			border-radius: 0px 2px 2px 0px;
-			font-size: 1.1rem;
-		}
-		
-		.fa-magnifying-glass {
-			color: white;
-		}
-		
-		::placeholder {
-		  color: #d5d5d5;
-		  opacity: 1;
-		}
-
-		::-ms-input-placeholder {
-		  color: #d5d5d5;
-		}
-	</style>
 	<div class="liveContainer">
 		<video
 		id="my-player"
@@ -329,415 +31,73 @@
 		controls
 		preload="auto"
 		data-setup='{"controlBar": {"pictureInPictureToggle": false}}'>
-	  <p class="vjs-no-js">
-		To view this video please enable JavaScript, and consider upgrading to a
-		web browser that
-		<a href="https://videojs.com/html5-video-support/" target="_blank">
-		  supports HTML5 video
-		</a>
-	  </p>
-	</video>
-	
-	<script>
-		var player = videojs('my-player');
-		
-		let activeURL = null, activeID = -1;
-		
-		let lastMovie = localStorage.getItem("lastMovie");
-		if (lastMovie != null) {
-			lastMovie = JSON.parse(lastMovie);
-			document.querySelector("video").setAttribute("poster", lastMovie.Thumb);
-			
-			activeID = lastMovie.EID;
-			activeURL = lastMovie.HLS;
-			player.src({
-			  src: lastMovie.HLS,
-			  type: 'application/x-mpegURL'
-			});
-		}
-		else {
-			player.src({
-			  src: moviesList.Movies[0].Episodes[4].hls,
-			  type: 'application/x-mpegURL'
-			});
-			
-			activeID = 0;
-			activeURL = moviesList.Movies[0].Episodes[4].hls;
-			document.querySelector("video").setAttribute("poster", moviesList.Movies[0].Thumb);
-			//document.querySelector("source").src = "https://adrin.upera.tv/2984234-0-hls.m3u8?ref=w1iu";
-		}
-		//https://s35.upera.net/s3/posters/ECnVUlzr78jV9OP8JqNj.jpg
-		
-	</script>
-	
+		  <p class="vjs-no-js">
+			To view this video please enable JavaScript, and consider upgrading to a
+			web browser that
+			<a href="https://videojs.com/html5-video-support/" target="_blank">
+			  supports HTML5 video
+			</a>
+		  </p>
+		</video>
 	</div>
+	
 	<div class="searchHolder">
-		<input oninput="SearchFilm(this.value)" placeholder="جست وجو..." /><div class="searchDiv"><i class="fa-solid fa-magnifying-glass"></i></div>
+		<input placeholder="جست وجو..." /><div class="searchDiv"><i class="fa-solid fa-magnifying-glass"></i></div>
 	</div>
-	<div class="filmsContainer">
+	<div class="filmsContainer"></div>
+	
+	<div class="filmEpisodesContainer"></div>
+	
+	<div class="PlaybackStatus Offline"><i class="fa-solid fa-signal-stream"></i></div>
+	<div class="Unmute">باز کردن صدا<i class="fa-solid fa-volume"></i></div>
+	
+	<div class="Credits">
+		<i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i><i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+		<br /> <br />
+		<i class="fa-duotone fa-solid fa-tv-retro" style="--fa-primary-color: #a5a5a5;--fa-secondary-color: #f0f0f0;--fa-secondary-opacity: 1;"></i> کودک TV <br /><br />
+		<i class="fa-duotone fa-solid fa-circle-info" style="--fa-primary-color: #ffffff;--fa-secondary-color: #00b4b8;--fa-secondary-opacity: 1;top: 2px;"></i>
+		کودک TV، یک اپلیکیشن موبایل تماشای فیلم‌های کودکانه است. این اپلیکیشن‌ مجموعه‌ای گسترده از محتوای بازبینی شده مناسب سن کودکان بر پایه استاندارد سیستم امتیازدهی فیلم انجمن تصاویر متحرک است. محتوای اپلیکیشن شامل فیلم‌های انیمیشنی، ویدیوهای آموزشی و برنامه‌های تلویزیونی محبوب است. کودک TV، راهی راحت و ایمن برای کودکان به منظور لذت بردن از سرگرمی با کیفیت فراهم می‌کند و والدین را مطمئن می‌کند که کودکانشان با محتوای سالم در تعامل هستند.
 		
+		<br /><br />
+		<i class="fa-duotone fa-solid fa-trophy-star" style="--fa-primary-color: #00b4b8;--fa-secondary-color: #fff700;--fa-secondary-opacity: 1;font-size: 2rem;top: 2px;"></i>رضایت شما افتخار ماست<br />
 		
-		<div class="filmItem">
-			<div class="filmItemPic" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')">
-				<div class="filmItemText"><i class="fa-solid fa-clapperboard-play"></i> باب اسفنجی</div>
-			</div>
+		<div class="features">
+			<i class="fa-duotone fa-solid fa-square-check" style="--fa-primary-color: #e8e8e8; --fa-secondary-color: #00b4b8; --fa-secondary-opacity: 1;"></i> فضای امن مناسب سن کودک <br />
+			<i class="fa-duotone fa-solid fa-square-check" style="--fa-primary-color: #e8e8e8; --fa-secondary-color: #00b4b8; --fa-secondary-opacity: 1;"></i> رابط کاربری ساده، روان و کار آمد<br />
+			<i class="fa-duotone fa-solid fa-square-check" style="--fa-primary-color: #e8e8e8; --fa-secondary-color: #00b4b8; --fa-secondary-opacity: 1;"></i> محتوای بازبینی شده مناسب کودکان <br />
+			<i class="fa-duotone fa-solid fa-square-check" style="--fa-primary-color: #e8e8e8; --fa-secondary-color: #00b4b8; --fa-secondary-opacity: 1;"></i> دسترسی به همه محتوا بدون نیاز به اشتراک
 		</div>
-		<div class="filmItem">
-			<div class="filmItemPic" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')">
-				<div class="filmItemText"><i class="fa-solid fa-clapperboard-play"></i> باب اسفنجی</div>
-			</div>
+		<br />
+		<i class="fa-duotone fa-solid fa-registered" style="--fa-primary-color: #ffffff;--fa-secondary-color: #00b4b8;--fa-secondary-opacity: 1;top: 2px;"></i> حقوق و قوانین <br />
+		تمامی محتوا از سیستم همکاری شرکت عصر گسترش اطلاعات کاربرمحور - آپرا، سینمای آنلاین شما - دریافت شده. محتوا با حفظ حقوق مالکیت فیلم ها و سریال ها پخش می شود و همگی محتواهای ارایه شده در چارچوب قوانین و مقررات جمهوری سلامی ایران می باشد. <br /><br />
+		
+		<!--
+		<div class="uperaLink">
+			<a href="https://upera.tv/"><i class="fa-solid fa-globe-pointer" style="color: #00f4f9;"></i> آپرا، سینمای آنلاین شما - https://upera.tv/</a>
 		</div>
-		<div class="filmItem">
-			<div class="filmItemPic" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')">
-				<div class="filmItemText"><i class="fa-solid fa-clapperboard-play"></i> باب اسفنجی</div>
-			</div>
-		</div>
-		<div class="filmItem">
-			<div class="filmItemPic" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')">
-				<div class="filmItemText"><i class="fa-solid fa-clapperboard-play"></i> باب اسفنجی</div>
-			</div>
-		</div>
-		<div class="filmItem">
-			<div class="filmItemPic" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')">
-				<div class="filmItemText"><i class="fa-solid fa-clapperboard-play"></i> باب اسفنجی</div>
-			</div>
-		</div>
-		<div class="filmItem">
-			<div class="filmItemPic" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')">
-				<div class="filmItemText"><i class="fa-solid fa-clapperboard-play"></i> باب اسفنجی</div>
-			</div>
-		</div>
-		<div class="filmItem">
-			<div class="filmItemPic" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')">
-				<div class="filmItemText"><i class="fa-solid fa-clapperboard-play"></i> باب اسفنجی</div>
-			</div>
-		</div>
-		<div class="filmItem">
-			<div class="filmItemPic" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')">
-				<div class="filmItemText"><i class="fa-solid fa-clapperboard-play"></i> باب اسفنجی</div>
-			</div>
-		</div>
-		<div class="filmItem">
-			<div class="filmItemPic" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')">
-				<div class="filmItemText"><i class="fa-solid fa-clapperboard-play"></i> باب اسفنجی</div>
-			</div>
+		-->
+		
+		<div class="filmgoBack" onclick="this.parentNode.style.display = 'none'">
+			بازگشت به عقب <i class="fa-duotone fa-solid fa-circle-arrow-left" style="--fa-primary-color: #000000; --fa-secondary-color: #ffffff; --fa-secondary-opacity: 1;"></i>
 		</div>
 	</div>
 	
-	<div class="filmEpisodesContainer" style="">
-		<div class="filmCover" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')"></div>
-		<div class="filmEpisode ">ارباب حلقه ها</div>
-		<div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div><div class="filmEpisode serial">قسمت 1</div>
-		
-		<div class="filmgoBack">بازگشت به عقب <i class="fa-duotone fa-solid fa-circle-arrow-left" style="--fa-primary-color: #000000; --fa-secondary-color: #ffffff; --fa-secondary-opacity: 1;"></i></div>
+	<div class="aboutUS">
+		<i class="fa-solid fa-circle-info" style="top: 2px; position: relative;"></i> درباره ما
 	</div>
-<script>
-	var totalFilmsDuration = 0, setplayerTime = -1;
-	let qualityLevels = player.qualityLevels();
-
-	qualityLevels.on('addqualitylevel', function(event) {	
-		let qualitLevel = event.qualityLevel;
-		let height = qualitLevel.height;
-		
-		if (qualitLevel.width < qualitLevel.height) {
-			qualitLevel.height = qualitLevel.width;	
-			qualitLevel.width = height;
-		}
-	});
 	
-	player.ready(function() {
-		console.log("ready");
-		player.qualityMenu();
-		
-		player.on("ended", function(){ 
-			let activeOne = document.querySelector(".Episode.Active");
-			if (activeOne != null) {
-				if (activeOne.nextSibling != null) {
-					activeOne.nextSibling.click();
-				}
-				else {
-					let activateOne = activeOne.parentNode.querySelector(".Episode");
-					activateOne.click();
-					
-					activateOne.scrollIntoView();
-					activateOne.parentNode.scrollIntoView();
-				}
-			}
-		});
-		
-	});
+	<div class="internerError">
+	<i class="fa-duotone fa-solid fa-wifi-exclamation"></i> از وصل بودن اینترنت مطمئن شوید
+	</div>
 	
-	//console.log(player.qualityLevels());
-	//player.httpSourceSelector();
-	//player.play();
-	parseMoviesList();
-	
-	function parseMoviesList() {	
-		let shuffledIDS = ShuffleList(moviesList.Movies.length);
-		
-		let filmsContainer = document.querySelector(".filmsContainer");
-		filmsContainer.innerHTML = "";
-		
-		for (let a = (moviesList.Movies.length - 1); a >= 0; a--) {
-			
-			let i = shuffledIDS[a];
-		
-			/*
-			<div class="filmItem">
-			<div class="filmItemPic" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')">
-				<div class="filmItemText"><i class="fa-solid fa-clapperboard-play"></i> باب اسفنجی</div>
-			</div>
-		</div>*/
-		
-		
-			let filmItem = document.createElement("div");
-			filmItem.className = "filmItem";			
-			
-			let filmItemPic = document.createElement("div");
-			filmItemPic.className = "filmItemPic";
-			filmItemPic.style = "--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=" + moviesList.Movies[i].Thumb + "')";
-			let myID = i;
-			filmItemPic.onclick = function() {
-				ShowFilmEpisodes(filmItem, myID);
-				//PlayRandomFilm(filmPic);
-			};
-			
-			let filmItemText = document.createElement("div");
-			filmItemText.className = "filmItemText";
-			filmItemText.innerHTML = '<i class="fa-solid fa-clapperboard-play"></i> ' + moviesList.Movies[i].Title;
-			filmItemText.setAttribute("eid", i);
-			filmItemPic.appendChild(filmItemText);
-			
-			filmItem.appendChild(filmItemPic);
-			
-			CalculateFilmEpisodes(moviesList.Movies[i].Episodes);
-			
-			if (activeID == myID) {
-				filmsContainer.insertBefore(filmItem, filmsContainer.firstChild);
-			}
-			else {
-				filmsContainer.appendChild(filmItem);
-			}
-		}
-		
-		LoadLiveTVStream();
-	}
-	
-	function ShowFilmEpisodes(parentElem, filmID) {
-		let episodesShower = document.querySelector(".filmEpisodesContainer");
-		episodesShower.style.opacity = 0;
-		
-		episodesShower.innerHTML = "";
-		
-		let filmCover = document.createElement("div");
-		filmCover.className = "filmCover";
-		filmCover.style = "--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=" + moviesList.Movies[filmID].Thumb + "')";
-		episodesShower.appendChild(filmCover);
-		
-		let episodeID = 1, seaseonID = -1;
-		for (let a = 0; a < moviesList.Movies[filmID].Episodes.length; a++) {
-			let filmEpisode = document.createElement("div");
-			filmEpisode.className = "filmEpisode";
-			if ('Title' in moviesList.Movies[filmID].Episodes[a]) {
-				filmEpisode.innerText = moviesList.Movies[filmID].Episodes[a].Title;
-			}
-			else {
-				filmEpisode.className = "filmEpisode serial";
-				if ('SE' in moviesList.Movies[filmID].Episodes[a]) {
-					if (seaseonID != moviesList.Movies[filmID].Episodes[a].SE) {
-						episodeID = 1;
-						seaseonID = moviesList.Movies[filmID].Episodes[a].SE;
-					}
-				
-					filmEpisode.innerText = "فصل " + NumbersToPersian(moviesList.Movies[filmID].Episodes[a].SE) + " - قسمت " + NumbersToPersian(episodeID);
-				}
-				else {			
-					if (seaseonID != -1) {
-						episodeID = 1;
-						seaseonID = -1;
-					}
-					
-					filmEpisode.innerText = "قسمت " + NumbersToPersian(episodeID);
-				}
-				episodeID++;
-			}
-			
-			if (activeURL != null && moviesList.Movies[filmID].Episodes[a].hls === activeURL) {
-				filmEpisode.className += " Active";
-			}
-			
-			let mythumb = moviesList.Movies[filmID].Thumb;
-			let myfilmID = filmID;
-			filmEpisode.onclick = function() {
-				localStorage.setItem("lastMovie", JSON.stringify({Thumb: mythumb, HLS: moviesList.Movies[filmID].Episodes[a].hls, EID: myfilmID}));
-				PlayEpisode(myfilmID, moviesList.Movies[filmID].Episodes[a].hls, mythumb, false);
-				
-				let activeOne = document.querySelector(".filmEpisode.Active");
-				if (activeOne != null) {
-					activeOne.className = activeOne.className.replace(" Active", "");
-				}
-				filmEpisode.className += " Active";
-				
-				// Make first
-				let filmsContainer = document.querySelector(".filmsContainer");
-				filmsContainer.insertBefore(parentElem, filmsContainer.firstChild);
-			};
-			episodesShower.appendChild(filmEpisode);
-		}
-		
-		let gobackScript = document.createElement("div");
-		gobackScript.className = "filmgoBack";
-		gobackScript.innerHTML = 'بازگشت به عقب <i class="fa-duotone fa-solid fa-circle-arrow-left" style="--fa-primary-color: #000000; --fa-secondary-color: #ffffff; --fa-secondary-opacity: 1;"></i>';
-		
-		gobackScript.onclick = function() {
-			HideFilmEpisodes();
-		};
-		episodesShower.appendChild(gobackScript);
-		
-		episodesShower.style.display = "block";
-		requestAnimationFrame(function() {
-			episodesShower.style.opacity = 1;
-		});
-		/*<div class="filmEpisodesContainer" style="display: none">
-		<div class="filmCover" style="--thumb: url('https://s35.upera.net/thumb?w=150&h=222&q=90&src=https://s35.upera.net/s3/posters/wFG0MFVMwNtnHmYKenkp.jpg')"></div>
-		<div class="filmEpisode ">ارباب حلقه ها</div>
-		<div class="filmEpisode serial">قسمت 1</div>
-		</div>*/
-		
-	}
-	
-	function HideFilmEpisodes() {
-		let episodesShower = document.querySelector(".filmEpisodesContainer");
-		episodesShower.style.opacity = 0;
-		setTimeout(function() {
-			episodesShower.style.display = "none";
-			episodesShower.innerHTML = "";
-		}, 270);
-	}
-	
-	function PlayEpisode(filmID, episodehls, thumbnail, autoplay) {
-		if (autoplay) {		 
-			 player.muted(true);
-		}
-	
-		let videoElem = document.querySelector("video");
-		if (videoElem != null) {
-			videoElem.setAttribute("poster", thumbnail);
-		}
-
-		activeID = filmID;
-		activeURL = episodehls;
-		player.src({
-		  src: episodehls,
-		  type: 'application/x-mpegURL'
-		});
-		player.play();		
-	}
-	
-	function NumbersToPersian(input) {
-		input = input + "";
-		var id = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
-		 return input.replace(/[0-9]/g, function(w){
-			return id[+w];
-		 });
-	}
-	
-	function PlayRandomFilm(element) {
-		let episodes = element.parentNode.querySelector(".filmEpisodes").children;
-		episodes[Math.floor(Math.random() * episodes.length)].click();
-	}
-	
-	function SearchFilm(filmName) {
-		if (filmName.length > 2) {
-			let availableMovies = document.querySelectorAll(".filmItemText");		
-			for (let i = (availableMovies.length - 1); i > -1; i--) {
-				if (!availableMovies[i].innerText.replace(" ", "").includes(filmName)) {
-					availableMovies[i].parentNode.parentNode.className = "filmItem hideItem";
-				}
-				else {
-					availableMovies[i].parentNode.parentNode.className = "filmItem";
-				}
-			}
-		}
-		else {
-			let hidElements = document.querySelectorAll(".hideItem");
-			for (let i = (hidElements.length - 1); i > -1; i--) {
-				hidElements[i].className = "filmItem";
-			}
-		}
-	}
-	
-	function ShuffleList(listLength) {
-		let baseThing = Array.from(Array(listLength).keys());
-		
-		let outputList = [];
-		while (listLength > 0) {
-			let currentID = Math.floor(Math.random() * listLength);
-			outputList.push(baseThing[currentID]);
-			baseThing.splice(currentID, 1);
-			
-			listLength--;
-		}
-		
-		return outputList;
-	}
-	
-	function CalculateFilmEpisodes(EpisodesList) {	
-		for (let i = (EpisodesList.length - 1); i > -1; i--) {
-			if ('duration' in EpisodesList[i]) {
-				totalFilmsDuration += +EpisodesList[i].duration;
-			}
-		}
-	}
-	
-	function LoadLiveTVStream() {
-		let timeStamped = (Date.now() - moviesList.Updated) / 1000;
-		
-		if (timeStamped > totalFilmsDuration) {
-			timeStamped -= totalFilmsDuration * Math.floor(timeStamped / totalFilmsDuration);
-		}
-		
-		let totalCounted = 0, episodeID = 0;
-		for (let i = 0, j = moviesList.Movies.length; i < j; i++) {	
-			let howEpisodes = moviesList.Movies[i].Episodes.length;
-			
-			let whichEpisode = episodeID;
-			if (howEpisodes <= episodeID) {
-				whichEpisode -= howEpisodes * Math.floor(episodeID / howEpisodes);
-			}
-			
-			//console.log(moviesList.Movies[i].Episodes.length + " | " + whichEpisode);
-			
-			if ('duration' in moviesList.Movies[i].Episodes[whichEpisode]) {
-				totalCounted += +moviesList.Movies[i].Episodes[whichEpisode].duration;
-				if (totalCounted >= timeStamped) {
-					//localStorage.setItem("lastMovie", ""); LIVE
-					
-					totalCounted -= +moviesList.Movies[i].Episodes[whichEpisode].duration;
-					
-					let setcurrenTimeAt = timeStamped - totalCounted;
-					setplayerTime = setcurrenTimeAt;
-					
-					PlayEpisode(i, moviesList.Movies[i].Episodes[whichEpisode].hls, moviesList.Movies[i].Thumb, true);	
-					break;
-				}
-			}
-			
-			if (i == (j - 1)) {
-				episodeID++;
-				i = 0;
-			}
-		}
-	}
-	
-	player.on("canplaythrough", function(){
-		if (setplayerTime != -1) {		
-			player.currentTime(setplayerTime);
-			setplayerTime = -1;
-		}
-		
-		console.log("Yes sir");
-	});
-</script>
+	<div class="rateContainerHolder">
+		<div class="rateContainer">
+			<div class="rateTitle"><i class="fa-duotone fa-solid fa-circle-question"></i> نظر شما برای ما مهم است</div>
+			<div class="rateBody">لطفا نظر خود را در مورد تجربه تماشای خودتان با اپلیکیشن کودک تیوی ثبت کنید.</div>
+			<div class="rateButton"><i class="fa-solid fa-star"></i> ثبت نظر</div>
+			<div class="rateButton">بیخیال</div>
+		</div>
+	</div>
+	<script src="script.js"></script>
 </body>
 </html>
