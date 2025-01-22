@@ -362,7 +362,7 @@ body.mobile {
 	bottom: 5px;
 	border: 2px solid #00c8ff;
 	border-radius: 4px;
-	padding: 4px 6px 3px 6px;
+	padding: 6px 6px 0px 6px;
 	direction: rtl;
 	text-align: right;
 	color: white;
@@ -375,9 +375,10 @@ body.mobile {
 	z-index: 21;
 }
 
+/*
 .contactus:visited, .contactus:focus, .contactus:active {
 	transform: scale(0.9);
-}
+}*/
 
 .supportstyle {
 	top: 2px;

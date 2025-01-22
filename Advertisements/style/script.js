@@ -115,8 +115,9 @@ function parseJSONData(jsondata, activechannel, isoffline) {
 			if (reservedAds != null && !reservedAds.innerText.includes("مطلب"))
 				reservedAds.appendChild(EmptyDay());
 				
-			if (reservedAds != null)
-				dayElement.appendChild(reservedAds);			
+			if (reservedAds != null) {
+				dayElement.appendChild(reservedAds);
+			}				
 			
 			// 12 am
 			if (a != 2 && activechannel[0]) {
@@ -142,9 +143,9 @@ function parseJSONData(jsondata, activechannel, isoffline) {
 			if (reservedAds != null && !reservedAds.innerText.includes("مطلب"))			
 				reservedAds.appendChild(EmptyDay());
 			
-			if (reservedAds != null)
+			if (reservedAds != null) {
 				dayElement.appendChild(reservedAds);
-				
+			}
 			
 		}
 		theContainer.appendChild(dayElement);
@@ -156,20 +157,35 @@ function AppendAdData(channel, adname, adtype, reservedAds, showReserved) {
 	if (adname.length > 0) {
 		if (!showReserved[4])
 			return;
-		if (adtype == 0) {
-			reservedAds.innerHTML += '<div onclick="CopyMe(0, this)" class="' + channel + ' AdItem">یک مطلب مانده به آخر<div style="text-align: center"><i class="fa-solid fa-flag-swallowtail"></i> رزرو شده، موضوع: ' + adname + '</div></div>';
+		
+		let hasRIP = false;
+		if (adname.includes("RIP")) {
+			hasRIP = true;
+			adname = adname.replace("RIP", "");
+		}
+		
+		let adelementName = "";
+		if (hasRIP) {
+			adelementName = '<font color="e65c00"> رزرو شده، موضوع: ' + adname + '</font>';
 		}
 		else {
-			reservedAds.innerHTML += '<div onclick="CopyMe(1, this)" class="' + channel + ' AdItem">آخرین مطلب ارسالی<div style="text-align: center"><i class="fa-solid fa-flag-swallowtail"></i> رزرو شده، موضوع: ' + adname + '</div></div>';
+			adelementName = ' رزرو شده، موضوع: ' + adname;
+		}
+		
+		if (adtype == 0) {
+			reservedAds.innerHTML += '<div onclick="CopyMe(0, this)" ondblclick="CopyNextEmpty(0, this)" class="' + channel + ' AdItem">یک مطلب مانده به آخر<div style="text-align: center"><i class="fa-solid fa-flag-swallowtail"></i>' + adelementName + '</div></div>';
+		}
+		else {
+			reservedAds.innerHTML += '<div onclick="CopyMe(1, this)" ondblclick="CopyNextEmpty(1, this)" class="' + channel + ' AdItem">آخرین مطلب ارسالی<div style="text-align: center"><i class="fa-solid fa-flag-swallowtail"></i>' + adelementName + '</div></div>';
 		}
 	}
 	else {
 		if (adtype == 0) {
 			
-			reservedAds.innerHTML += '<div onclick="CopyMe(0, this)" class="' + channel + ' AdItem">یک مطلب مانده به آخر<div style="text-align: center"><i class="fa-duotone fa-circle-check"></i> رزرو نشده</div></div>';
+			reservedAds.innerHTML += '<div onclick="CopyMe(0, this)" ondblclick="CopyNextEmpty(0, this)" class="' + channel + ' AdItem">یک مطلب مانده به آخر<div style="text-align: center"><i class="fa-duotone fa-circle-check"></i> رزرو نشده</div></div>';
 		}
 		else {
-			reservedAds.innerHTML += '<div onclick="CopyMe(1, this)" class="' + channel + ' AdItem">آخرین مطلب ارسالی<div style="text-align: center"><i class="fa-duotone fa-circle-check"></i> رزرو نشده</div></div>';
+			reservedAds.innerHTML += '<div onclick="CopyMe(1, this)" ondblclick="CopyNextEmpty(1, this)" class="' + channel + ' AdItem">آخرین مطلب ارسالی<div style="text-align: center"><i class="fa-duotone fa-circle-check"></i> رزرو نشده</div></div>';
 		}
 	}
 }
@@ -188,7 +204,7 @@ function AppendAdData(channel, adname, adtype, reservedAds, showReserved) {
 })();
 
 function PrepareDataToUser(jsonData, isoffline) {
-	let acticeCHN = [true, false, false, false, false, false];
+	let acticeCHN = [false, true, false, false, false, false];
 	let activeCache = localStorage.getItem("activeCHN");
 	if (activeCache != null) {
 		acticeCHN = JSON.parse(activeCache);
@@ -310,7 +326,74 @@ function PerformeFadeEffect(ActiveChannelsList) {
 	return fadingAny;
 }
 
-function CopyMe(type, element) {
+let theIntervalTimer = null;
+
+function CopyNextEmpty(type, element) {
+	if (_chanInputs == null) {
+		_chanInputs = document.querySelectorAll("input");
+	}
+	
+	if (!_chanInputs[4].checked)
+		return;
+	
+	clearTimeout(theIntervalTimer);
+	//console.log(element.parentNode.parentNode.querySelector(".date").innerText);
+	//console.log(element.parentNode);
+	//console.log(element.parentNode.parentNode.nextSibling);
+	
+	let firstParent = -1, secondParent = -1;
+		
+	firstParent = Array.prototype.indexOf.call(element.parentNode.children, element);
+	secondParent = Array.prototype.indexOf.call(element.parentNode.parentNode.children, element.parentNode);
+	
+	//console.log(firstParent + " | " + secondParent);
+	
+	let emptyPlace = FindNotReserved(element, firstParent, secondParent);
+	if (emptyPlace != null) {
+		CopyMe(type, emptyPlace, true);
+		
+		// Scroll to reservation
+		let scrollTop = emptyPlace.parentNode.parentNode.offsetTop - 60;
+		
+		if (scrollTop < 0)
+			scrollTop = 0;
+		
+		scrollingTimer = setTimeout(function() {
+			document.querySelector(".container").scroll({
+			  top: scrollTop,
+			  left: 0,
+			  behavior: "instant",
+			});
+		}, 400);
+	}
+	else {
+		if (typeof(JSHandler) != 'undefined') {
+			JSHandler.ShowToastMessage("No Empty Place");
+		}
+	}
+}
+
+function FindNotReserved(element, firstindex, secondindex) {	
+	let targetElement = element.parentNode.parentNode.nextSibling;
+	if (targetElement == null)
+		return null;
+	
+	while (true) {
+		let theitem = targetElement.children[secondindex].children[firstindex];
+		//console.log(theitem);
+		if (theitem.innerText.includes("رزرو نشده")) {
+			return theitem;
+		}
+		
+		targetElement = targetElement.nextSibling;
+		if (targetElement == null)
+			break;
+	}
+	
+	return null;
+}
+
+function CopyMe(type, element, perform = false) {
 	let time = element.parentNode.querySelector(".time").innerText,
 		date = FixDateString(element.parentNode.parentNode.querySelector(".title").innerText);
 	
@@ -320,6 +403,9 @@ function CopyMe(type, element) {
 	if (type == 0) {
 		adPosition = "یک مطلب مانده به آخر (جایگاه دوم)";
 	}
+	else if (type == 2) {
+		adPosition = "پست آزاد";
+	}
 	
 	let adPrice = CalculateAdPrice(findChannel, type, time, date);
 	
@@ -327,7 +413,8 @@ function CopyMe(type, element) {
 		findChannel = "شادکنک - @ShadKoonak";
 	}
 	else if (findChannel.includes("Aramish")) {
-		findChannel = "صدای آرامش - @AramishVoice";
+		//findChannel = "صدای آرامش - @AramishVoice";
+		findChannel = "آرامش - @MojezeAramish";
 	}
 	else if (findChannel.includes("Quran")) {
 		findChannel = "انس با قرآن - @SedayeVahy";
@@ -336,18 +423,42 @@ function CopyMe(type, element) {
 		findChannel = "آدرین موزیک - @AdrinMusic";
 	}
 	
-	let takeText = "📅 " + date + "\r\n\r\n⏰ ساعت:" + time + "\r\n📣 کانال: " + findChannel + "\r\n📌 جایگاه: " + adPosition + "\r\n💶 قیمت: " + adPrice + "\r\n\r\nℹ️ بنر شما از ساعت" + time;
+	let takeText = "📅 " + date + "\r\n\r\n⏰ ساعت:" + time + "\r\n📣 کانال: " + findChannel + "\r\n📌 جایگاه: " + adPosition + "\r\n💶 قیمت: " + adPrice;
 	
 	if (findChannel.includes(' -'))
 		findChannel = findChannel.substr(0, findChannel.indexOf(' -'));
+		
+	if (type != 2) {
+		if (_chanInputs[6].checked) {
+			takeText += "\r\n\r\nℹ️ بنر شما از ساعت" + time;
+			takeText += " تا ساعت " + FindNextTime(time, findChannel) + " " + adPosition + " کانال " + findChannel + " خواهد بود. بعد از آن تبلیغ شما پست آزاد می‌شود، بنر ۲۴ ساعت بعد از قرار گرفتن در کانال حذف می‌شود.";
+		}
+	}
+	else {
+		if (findChannel.includes("شاد")) {
+			takeText += "\r\n👁 بازدید: " + "۲۰k تا ۲۲k";
+		}
+		else {
+			takeText += "\r\n👁 بازدید: " + "۸k تا ۱۰k";
+		}
+		if (_chanInputs[6].checked) {
+			takeText += "\r\n\r\nℹ️ بنر شما ساعت" + time + " میان مطالب کانال " + findChannel + " ارسال خواهد شد. بنر ۲۴ ساعت بعد از قرار گرفتن در کانال حذف می‌شود.";
+		}
+	}
 	
-	takeText += " تا ساعت " + FindNextTime(time, findChannel) + " " + adPosition + " کانال " + findChannel + " خواهد بود. بعد از آن تبلیغ شما پست آزاد می‌شود، بنر ۲۴ ساعت بعد از قرار گرفتن در کانال حذف می‌شود.";
+	//console.log(takeText);
 	
-	CopyTheText(takeText);
+	if (!perform) {
+		clearTimeout(theIntervalTimer);
+		theIntervalTimer = setTimeout(function() { CopyTheText(takeText); }, 250);
+	}
+	else {
+		CopyTheText(takeText);
+	}
 	
 	let oldClass = element.className.replace(" highlightFilled", "").replace(" highlight", "");
 	
-	if (element.innerText.includes("رزرو شده")) {
+	if (element.innerText.includes("رزرو شده") && !perform) {
 		element.className = oldClass + " highlightFilled";
 	}
 	else {
@@ -370,7 +481,7 @@ function getHowManyDays(date) {
 		while (true) {
 			let generateDate = new Date(curDate);
 			let curDateINT = CalculateDate(generateDate.toLocaleDateString('fa-IR'));
-			console.log(curDateINT);
+			//console.log(curDateINT);
 			if (curDateINT > targetDate) {
 				curDate -= (24 * 60 * 60 * 1000);
 				howManyDates--;
@@ -431,6 +542,9 @@ function CalculateAdPrice(channelName, adPosition, adTime, theDate) {
 		if (adPosition == 0) {
 			thePrice = "۱۵۰،۰۰۰";
 		}
+		else if (adPosition == 2) {
+			thePrice = "۱۰۰،۰۰۰";
+		}
 		else {
 			if (isNight) {
 				thePrice = "۲۵۰،۰۰۰";
@@ -440,40 +554,78 @@ function CalculateAdPrice(channelName, adPosition, adTime, theDate) {
 			}
 		}
 	}
-	else if (channelName.includes("Aramish") || channelName.includes("Quran")) {
+	else if (channelName.includes("Quran")) {
 		if (adPosition == 0) {
 			if (isNight) {
 				if (disCountApplies) {
-					thePrice = "۱۸۰،۰۰۰";
+					thePrice = "۲۰۰،۰۰۰";
 				}
 				else {
-					thePrice = "۲۰۰،۰۰۰";
+					thePrice = "۲۵۰،۰۰۰";
 				}
 			}
 			else {
 				if (disCountApplies) {
-					thePrice = "۱۵۰،۰۰۰";
+					thePrice = "۲۰۰،۰۰۰";
 				}
 				else {
-					thePrice = "۱۸۰،۰۰۰";
+					thePrice = "۲۰۰،۰۰۰";
 				}
 			}
 		}
 		else {
 			if (isNight) {
 				if (disCountApplies) {
-					thePrice = "۲۸۰،۰۰۰";
+					thePrice = "۳۰۰،۰۰۰";
+				}
+				else {
+					thePrice = "۳۵۰،۰۰۰";
+				}
+			}
+			else {
+				if (disCountApplies) {
+					thePrice = "۲۵۰،۰۰۰";
 				}
 				else {
 					thePrice = "۳۰۰،۰۰۰";
 				}
 			}
-			else {
+		}
+	}
+	else if (channelName.includes("Aramish")) {
+		if (adPosition == 0) {
+			if (isNight) {
 				if (disCountApplies) {
-					thePrice = "۲۲۰،۰۰۰";
+					thePrice = "۲۰۰،۰۰۰";
 				}
 				else {
 					thePrice = "۲۵۰،۰۰۰";
+				}
+			}
+			else {
+				if (disCountApplies) {
+					thePrice = "۲۰۰،۰۰۰";
+				}
+				else {
+					thePrice = "۲۰۰،۰۰۰";
+				}
+			}
+		}
+		else {
+			if (isNight) {
+				if (disCountApplies) {
+					thePrice = "۳۰۰،۰۰۰";
+				}
+				else {
+					thePrice = "۳۵۰،۰۰۰";
+				}
+			}
+			else {
+				if (disCountApplies) {
+					thePrice = "۲۵۰،۰۰۰";
+				}
+				else {
+					thePrice = "۳۰۰،۰۰۰";
 				}
 			}
 		}
@@ -495,7 +647,7 @@ function FindNextTime(curtime, channlName) {
 		return "۱۲ ظهر";
 	}
 	else if (curtime.includes("۲۲")) {
-		return "۱۰:۳۰ صبح";
+		return "۱۰ صبح";
 	}
 	else {
 		return "نمیدانم";
@@ -520,6 +672,12 @@ function FixDateString(date) {
 }
 
 function CopyTheText(text) {
+	
+	if (typeof(JSHandler) != 'undefined') {
+		JSHandler.CopyClipboard(text);
+		return;
+	}
+	
 	let copyText = document.createElement("textarea");
 	copyText.style.position = "fixed";
 	copyText.style.width = "0px";
@@ -531,16 +689,17 @@ function CopyTheText(text) {
 	
 	copyText.select();
 	copyText.setSelectionRange(0, 99999);
+	document.execCommand('copy');
+	copyText.remove();
+	
 	try
 	{
-		navigator.clipboard.writeText(copyText.value);
+		navigator.clipboard.writeText(text);
 	}
 	catch(msg) {
 	
 	}	
-	document.execCommand('copy');
 	
-	copyText.remove();
 }
 
 function FocusOnToday(isoffline) {
@@ -608,7 +767,7 @@ function loadUpdatedData() {
 		_finishedLoading = true;
 	}
 	else {
-		fetch("https://ads.lxb.ir/post/100", {cache: "no-cache"}).then((response) => {
+		fetch("response.txt", {cache: "no-cache"}).then((response) => {
 			if (response.ok) {
 				response.text().then(resp =>
 				{
@@ -711,7 +870,7 @@ function OpenSupport() {
 		}
 	}
 	
-	_chanInputs[0].checked, _chanInputs[2].checked, _chanInputs[1].checked, _chanInputs[3].checked
+	//_chanInputs[0].checked, _chanInputs[2].checked, _chanInputs[1].checked, _chanInputs[3].checked
 }
 
 function FindStopLength(jsonData, activeChannel) {
@@ -737,4 +896,239 @@ function FindStopLength(jsonData, activeChannel) {
 		stopIndex = jsonData[0].length;
 	}
 	return stopIndex;
+}
+
+document.addEventListener('touchstart', handleTouchStart, false);
+document.addEventListener('touchmove', handleTouchRealMove, false);      
+document.addEventListener('touchend', handleTouchMove, false);
+document.addEventListener('mousedown', handleTouchStart, false);        
+document.addEventListener('mouseup', handleTouchMove, false);
+
+var xDown = null;                                                        
+var yDown = null, itemDown = null, storedX = null, storedY = null, scrollingTimer = null;
+
+function getTouches(evt) {
+	if (!('touches' in evt)) {
+		return {clientX: evt.clientX, clientY: evt.clientY};
+	}
+	
+	return evt.touches[0];
+}                                                     
+
+function CheckClassType(srcelement, classname) {
+	return srcelement.className.includes(classname) ||
+		   (srcelement.parentNode != null && srcelement.parentNode.className != null && srcelement.parentNode.className.includes(classname)) || 
+		   (srcelement.parentNode.parentNode != null && srcelement.parentNode.parentNode.className != null && srcelement.parentNode.parentNode.className.includes(classname));
+}
+
+function getRightElement(srcelement) {
+	if (srcelement.className.includes("AdItem")) {
+		return srcelement;
+	}
+	else if (srcelement.parentNode != null && srcelement.parentNode.className.includes("AdItem")) {
+		return srcelement.parentNode;
+	}
+	else if (srcelement.parentNode.parentNode != null && srcelement.parentNode.parentNode.className.includes("AdItem")) {
+		return srcelement.parentNode.parentNode;
+	}
+	
+	return srcelement;
+}
+                                                          
+function handleTouchStart(evt) {
+	if (scrollingTimer != null) {
+		clearTimeout(scrollingTimer);
+	}
+	
+	if (!CheckClassType(evt.target, "AdItem")) {
+		xDown = null;
+		yDown = null;
+		storedX = null;
+		storedY = null;
+		return;
+	}
+	
+	itemDown = getRightElement(evt.target);
+    const firstTouch = getTouches(evt);                                      
+    xDown = firstTouch.clientX;                                      
+    yDown = firstTouch.clientY;                                      
+}
+
+function handleTouchRealMove(evt) {
+	if ( ! xDown || ! yDown ) {
+        return;
+    }
+	
+	if ('touches' in evt) {
+		storedX = evt.touches[0].clientX;
+		storedY = evt.touches[0].clientY;
+	}
+}
+
+function handleTouchMove(evt) {
+    if ( ! xDown || ! yDown ) {
+        return;
+    }
+
+    var xUp = null, yUP;
+		
+	if ('clientX' in evt) {
+		xUp = evt.clientX;
+		yUp = evt.clientY;
+	}
+	else if (storedX != null && storedY != null) {
+		xUp = storedX;
+		yUp = storedY;
+	}
+	
+	if (xUp == null) {
+		xDown = null;
+		yDown = null;
+		storedX = null;
+		storedY = null;	
+		return;
+	}
+	
+    var xDiff = xDown - xUp;
+    var yDiff = yDown - yUp;
+                                                                         
+    if ( Math.abs( xDiff ) > Math.abs( yDiff )) {
+	
+		if (xDiff > 70 && ( CheckClassType(itemDown, "Adrin") || CheckClassType(itemDown, "Shad") )) {
+			//console.log("Left swipe!");
+			
+			CopyMe(2, itemDown, true);
+		
+			setTimeout(function() {
+				clearTimeout(theIntervalTimer);
+			}, 170);
+		
+		}
+		else if (xDiff < -70 || xDiff > 70) {
+			//console.log("Right swipe!");
+			
+			if (( CheckClassType(itemDown, "Adrin") || CheckClassType(itemDown, "Shad") ) && itemDown.innerText.includes("رزرو شده")) {
+				CopyConfirm(2, itemDown, true);
+			}
+			else if (itemDown.innerText.includes("آخرین")) {
+				CopyConfirm(1, itemDown, true);
+			}
+			else {
+				CopyConfirm(0, itemDown, true);
+			}
+		
+			setTimeout(function() {
+				clearTimeout(theIntervalTimer);
+			}, 170);
+		}
+		//console.log("Difference: " + Math.abs(xDiff));
+        /*if ( xDiff > 0 ) {
+            
+        } else {
+            
+        }*/
+		
+		
+		return false;
+		
+    }
+    /* reset values */
+    xDown = null;
+    yDown = null;
+	storedX = null;
+	storedY = null;	
+};
+
+
+function copyPhrase(id) {
+	let randomPhrases = ["سلام"];
+	if (id == 0) { // Thanks
+		randomPhrases = ["تشکر از حسن انتخاب شما",
+			//"از حسن انتخاب شما کمال سپاسگزاری را داریم",
+			"از حسن انتخاب شما سپاسگزاریم",
+			"تشکر از اعتماد شما"
+		];
+	}
+	else if (id == 1) { // Flowers
+		randomPhrases = ["🌷", "🌹", "🌺", "🌸", "🌼", "🌻"];
+	}
+	else if (id == 2) { // Confirm
+		randomPhrases = ["برای شما رزرو گردید."];
+	}
+	else if (id == 3) { // Wishes
+		randomPhrases = ["امیدواریم که بازدهی خوبی بگیرید و از همکاری با ما کمال رضایت را داشته باشید.",
+		"امیدواریم که بازدهی خوبی بگیرید و از همکاری با ما کمال خرسندی را داشته باشید.",
+		"ان شاء الله که بازدهی خوبی بگیرید و از همکاری با ما کمال رضایت را داشته باشید.",
+		"ان شاء الله که بازدهی خوبی بگیرید و از همکاری با ما کمال خرسندی را داشته باشید.",
+		"امیدواریم که از بازدهی کمال رضایت را داشته باشید.",
+		"ان شاء الله از بازدهی کمال رضایت را داشته باشید."
+		]
+	}
+	
+	return randomPhrases[Math.floor(Math.random() * randomPhrases.length)];
+}
+
+
+function CopyConfirm(type, element, perform = false) {
+	let time = element.parentNode.querySelector(".time").innerText,
+		date = FixDateString(element.parentNode.parentNode.querySelector(".title").innerText);
+	
+	date = getHowManyDays(date);
+	
+	let findChannel = element.className, adPosition = "آخرین مطلب ارسالی (جایگاه اول)";
+	if (type == 0) {
+		adPosition = "یک مطلب مانده به آخر (جایگاه دوم)";
+	}
+	else if (type == 2) {
+		adPosition = "پست آزاد";
+	}
+	
+	if (findChannel.includes("Shad")) {
+		findChannel = "شادکنک - @ShadKoonak";
+	}
+	else if (findChannel.includes("Aramish")) {
+		//findChannel = "صدای آرامش - @AramishVoice";
+		findChannel = "آرامش - @MojezeAramish";
+	}
+	else if (findChannel.includes("Quran")) {
+		findChannel = "انس با قرآن - @SedayeVahy";
+	}
+	else if (findChannel.includes("Adrin")) {
+		findChannel = "آدرین موزیک - @AdrinMusic";
+	}
+	
+	let takeText = "🔸 " + copyPhrase(0) + " " + copyPhrase(1) + "\r\n\r\n";
+	takeText += "🗓 " + date + "\r\n";
+	takeText += "◽️ ساعت:" + time + "\r\n";
+	takeText += "◽️ کانال: " + findChannel + "\r\n";
+	takeText += "◽️ جایگاه: " + adPosition + "\r\n\r\n";
+	
+	takeText += "✅ " + copyPhrase(2) + " " + copyPhrase(3);
+	//"📅 " + date + "\r\n\r\n⏰ ساعت:" + time + "\r\n📣 کانال: " + findChannel + "\r\n📌 جایگاه: " + adPosition + "\r\n💶 قیمت: ";
+	
+	if (findChannel.includes(' -'))
+		findChannel = findChannel.substr(0, findChannel.indexOf(' -'));	
+	
+	//console.log(takeText);
+	
+	if (!perform) {
+		clearTimeout(theIntervalTimer);
+		theIntervalTimer = setTimeout(function() { CopyTheText(takeText); }, 250);
+	}
+	else {
+		CopyTheText(takeText);
+	}
+	
+	let oldClass = element.className.replace(" highlightFilled", "").replace(" highlight", "");
+	
+	if (element.innerText.includes("رزرو شده") && !perform) {
+		element.className = oldClass + " highlightFilled";
+	}
+	else {
+		element.className = oldClass + " highlight";
+	}
+	
+	setTimeout(function() {
+		element.className = oldClass;
+	}, 1000);
 }
